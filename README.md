@@ -134,8 +134,20 @@ Use three simple, common response codes indicating (1) success, (2) failure due 
 
 ## Official Languages
 
-We need to develop guidance around offering data in both Official Languages.  Google Maps support multiple languages through Query String parameters:
+### Separate request per language
+
+Google Maps support multiple languages through Query String parameters:
 http://googlegeodevelopers.blogspot.ca/2009/10/maps-api-v3-now-speaks-your-language.html
+
+### All languages together in one response
+
+All language content may appear in separate fields at the same level using a `_lang` suffix for non-English languages from BCP-47. This method is used for metadata on http://data.gc.ca/ . Example:
+
+    {
+        "title": "Biosphere Reserve LiDAR Survey",
+        "title_fr": "Levé LiDAR aux environs du Réserve de biosphere",
+        ..
+    }
 
 ## Versions
 
