@@ -141,21 +141,11 @@ http://googlegeodevelopers.blogspot.ca/2009/10/maps-api-v3-now-speaks-your-langu
 
 ### All languages together in one response
 
-Ideally all information with language content would be provided and marked with the language used in the same field. Example:
-
-    {
-        "title": {
-            "fra": "Levé LiDAR aux environs du Réserve de biosphere",
-            "eng": "Biosphere Reserve LiDAR Survey"
-        },
-        ..
-    }
-
-If not possible for interoperability reasons or software limitations language content may appear in separate fields. This method is used for metadata on http://data.gc.ca/ . Example:
+All language content may appear in separate fields at the same level using a `_lang` suffix for non-English languages from BCP-47. This method is used for metadata on http://data.gc.ca/ . Example:
 
     {
         "title": "Biosphere Reserve LiDAR Survey",
-        "title_fra": "Levé LiDAR aux environs du Réserve de biosphere",
+        "title_fr": "Levé LiDAR aux environs du Réserve de biosphere",
         ..
     }
 
