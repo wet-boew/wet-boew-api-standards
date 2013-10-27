@@ -134,20 +134,33 @@ Use three simple, common response codes indicating (1) success, (2) failure due 
 
 ## Official Languages
 
-### Separate request per language
-
-Google Maps support multiple languages through Query String parameters:
-http://googlegeodevelopers.blogspot.ca/2009/10/maps-api-v3-now-speaks-your-language.html
-
-### All languages together in one response
-
-All language content may appear in separate fields at the same level using a `_lang` suffix for non-English languages from BCP-47. This method is used for metadata on http://data.gc.ca/ . Example:
+Content in all available languages should appear in separate fields at the same level.
+Use a `_lang` suffix from BCP-47 on keys for non-English languages. Example:
 
     {
         "title": "Biosphere Reserve LiDAR Survey",
         "title_fr": "Levé LiDAR aux environs du Réserve de biosphere",
         ..
     }
+
+### Caller-specified language
+
+APIs likely to be used to create an interface for end users
+should allow the caller to specify the language they prefer with a `language`
+query parameter.
+That language would replace the content that would normally appear
+in the English version of the field. No other languages would need to
+be provided in the response. Example:
+
+`GET ..?language=fr`
+
+    {
+        "title": "Levé LiDAR aux environs du Réserve de biosphere",
+        ..
+    }
+
+This is similar to Google Maps multiple language support:
+http://googlegeodevelopers.blogspot.ca/2009/10/maps-api-v3-now-speaks-your-language.html
 
 ## Versions
 
