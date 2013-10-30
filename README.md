@@ -1,7 +1,7 @@
-wet-boew-api-standards
+Government of Canada Web API Standards
 ======================
 
-Possible requirements for Government of Canada APIs based on the [White House standards](https://github.com/WhiteHouse/api-standards)
+Possible requirements for Government of Canada APIs based on the [White House Web API Standards](https://github.com/WhiteHouse/api-standards)
 
 * [Guidelines](#guidelines)
 * [Pragmatic REST](#pragmatic-rest)
