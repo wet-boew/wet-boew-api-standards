@@ -1,4 +1,4 @@
-Government of Canada Web API Standards
+GC Web API Standards
 ======================
 
 Possible requirements for Government of Canada APIs based on the [White House Web API Standards](https://github.com/WhiteHouse/api-standards)
