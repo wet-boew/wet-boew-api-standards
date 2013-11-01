@@ -3,7 +3,7 @@ GC Web API Standards
 
 Possible requirements for Government of Canada APIs based on the [White House Web API Standards](https://github.com/WhiteHouse/api-standards)
 
-* [Guidelines](#guidelines)
+* [Standards](#standards)
 * [Pragmatic REST](#pragmatic-rest)
 * [RESTful URLs](#restful-urls)
 * [HTTP Verbs](#http-verbs)
