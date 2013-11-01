@@ -16,19 +16,20 @@ Possible requirements for Government of Canada APIs based on the [White House We
 * [Mock Responses](#mock-responses)
 * [JSONP](#jsonp)
 
-## Guidelines
+## Standards
 
-This document provides guidelines and examples for White House Web APIs, encouraging consistency, maintainability, and best practices across applications. White House APIs aim to balance a truly RESTful API interface with a positive developer experience (DX).
+This document provides a standard along with examples for Government of Canada Web APIs, encouraging consistency, maintainability, and best practices across applications. Government of Canada APIs aim to balance a truly RESTful API interface with a positive developer experience (DX).
 
 This document borrows heavily from:
 * [Designing HTTP Interfaces and RESTful Web Services](http://munich2012.drupal.org/program/sessions/designing-http-interfaces-and-restful-web-services)
 * API Facade Pattern, by Brian Mulloy, Apigee
 * Web API Design, by Brian Mulloy, Apigee
 * [Fieldings Dissertation on REST](http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm)
+* [The White House Web API Standards] (https://github.com/WhiteHouse/api-standards)
 
 ## Pragmatic REST
 
-These guidelines aim to support a truly RESTful API. Here are a few exceptions:
+These standards aim to support a truly RESTful API. Here are a few exceptions:
 * Put the version number of the API in the URL (see examples below). Don’t accept any requests that do not specify a version number.
 * Allow users to request formats like JSON or XML like this:
     * http://example.gov/api/v1/magazines.json
@@ -36,7 +37,7 @@ These guidelines aim to support a truly RESTful API. Here are a few exceptions:
 
 ## RESTful URLs
 
-### General guidelines for RESTful URLs
+### Standards for RESTful URLs
 * A URL identifies a resource.
 * URLs should include nouns, not verbs.
 * Use plural nouns only for consistency (no singular nouns).
