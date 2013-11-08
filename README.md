@@ -4,10 +4,10 @@ GC Web API Standards
 Possible requirements for Government of Canada APIs based on the [White House Web API Standards](https://github.com/WhiteHouse/api-standards)
 
 * [Standards](#standards)
-* [Pragmatic REST](#pragmatic-rest)
 * [RESTful URLs](#restful-urls)
 * [HTTP Verbs](#http-verbs)
 * [Responses](#responses)
+* [Response Format] (#response-format)
 * [Error handling](#error-handling)
 * [Official Languages](#official-languages)
 * [Versions](#versions)
@@ -27,13 +27,6 @@ This document borrows heavily from:
 * [Fieldings Dissertation on REST](http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm)
 * [The White House Web API Standards] (https://github.com/WhiteHouse/api-standards)
 
-## Pragmatic REST
-
-These standards aim to support a truly RESTful API. Here are a few exceptions:
-* Put the version number of the API in the URL (see examples below). Don’t accept any requests that do not specify a version number.
-* Allow users to request formats like JSON or XML like this:
-    * http://example.gov/api/v1/magazines.json
-    * http://example.gov/api/v1/magazines.xml
 
 ## RESTful URLs
 
@@ -43,29 +36,24 @@ These standards aim to support a truly RESTful API. Here are a few exceptions:
 * Use plural nouns only for consistency (no singular nouns).
 * Use HTTP verbs (GET, POST, PUT, DELETE) to operate on the collections and elements.
 * You shouldn’t need to go deeper than resource/identifier/resource.
-* Put the version number at the base of your URL, for example http://example.com/v1/path/to/resource.
 * URL v. header:
     * If it changes the logic you write to handle the response, put it in the URL.
     * If it doesn’t change the logic for each response, like OAuth info, put it in the header.
 * Specify optional fields in a comma separated list.
-* Formats should be in the form of api/v2/resource/{id}.json
+* Formats should be in the form of api/resource/{id}
 
 ### Good URL examples
 * List of magazines:
-    * http://www.example.gov/api/v1/magazines.json
+    * http://www.example.gov/api/magazines
 * Filtering is a query:
-    * http://www.example.gov/api/v1/magazines.json?year=2011&sort=desc
-    * http://www.example.gov/api/v1/magazines.json?topic=economy&year=2011
-* A single magazine in JSON format:
-    * http://www.example.gov/api/v1/magazines/1234.json
+    * http://www.example.gov/api/magazines?year=2011&sort=desc
+    * http://www.example.gov/api/magazines?topic=economy&year=2011
 * All articles in (or belonging to) this magazine:
-    * http://www.example.gov/api/v1/magazines/1234/articles.json
-* All articles in this magazine in XML format:
-    * GET http://example.gov/api/v1/magazines/1234/articles.xml
+    * http://www.example.gov/api/magazines/1234/articles
 * Specify optional fields in a comma separated list:
-    * http://www.example.gov/api/v1/magazines/1234.json?fields=title,subtitle,date
+    * http://www.example.gov/api/magazines/1234?fields=title,subtitle,date
 * Add a new article to a particular magazine:
-    * POST http://example.gov/api/v1/magazines/1234/articles
+    * POST http://example.gov/api/magazines/1234/articles
 
 ### Bad URL examples
 * Non-plural noun:
@@ -113,6 +101,11 @@ Values in keys:
       {"834": "Water Quality"}
     ],
 
+## Response Format
+
+* The HTTP Header "Accept" should be used to negotiate the API version 
+   * "Accept: application/vnd.company.myapp.customer-v3+xml"
+   * "Accept: application/vnd.company.myapp.customer-v3+json"
 
 ## Error handling
 
@@ -170,7 +163,10 @@ http://googlegeodevelopers.blogspot.ca/2009/10/maps-api-v3-now-speaks-your-langu
     * Good: v1, v2, v3
     * Bad: v-1.1, v1.2, 1.3
 * Maintain APIs at least one version back.
+* The HTTP Header "Accept" should be used to negotiate the API version 
+   * "Accept: application/vnd.company.myapp.customer-v3+xml"
 
+http://stackoverflow.com/questions/389169/best-practices-for-api-versioning
 
 ## Record limits
 
@@ -195,27 +191,6 @@ Information about record limits should also be included in the Example resonse. 
         ]
     }
 
-### Offsets into frequently changing data
-
-* A `following` parameter may be provided for more reliable collection of
-  results for result sets that change frequently
-* `following` replaces the offset parameter with the value from the field
-  that has been used to sort the results from the last record returned
-  in the previous call to the API
-
-Example: Using an API that returns entries from an activity log
-in descending time order, and the last record returned had a time stamp
-of `"2013-10-30T15:06:22,556645642Z"` we could ask for the next 50 records
-with:
-
-`GET http://example.com/activities?limit=50&following=2013-10-30T15:06:22,556645642Z`
-
-Example: Using an API that returns registered users sorted by their
-user names in ascending order, and the last user returned was named
-`"Jane Smith"` we could ask for the next group of names with:
-
-`GET http://example.com/users?following=Jane%20Smith`
-
 ## Request & Response Examples
 
 ### API Resources
@@ -226,7 +201,7 @@ user names in ascending order, and the last user returned was named
 
 ### GET /magazines
 
-Example: http://example.gov/api/v1/magazines.json
+Example: http://example.gov/api/v1/magazines
 
     {
         "metadata": {
@@ -271,7 +246,7 @@ Example: http://example.gov/api/v1/magazines.json
 
 ### GET /magazines/[id]
 
-Example: http://example.gov/api/v1/magazines/[id].json
+Example: http://example.gov/api/v1/magazines/[id]
 
     {
         "id": "1234",
