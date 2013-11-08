@@ -195,6 +195,27 @@ Information about record limits should also be included in the Example resonse. 
         ]
     }
 
+### Offsets into frequently changing data
+
+* A `following` parameter may be provided for more reliable collection of
+  results for result sets that change frequently
+* `following` replaces the offset parameter with the value from the field
+  that has been used to sort the results from the last record returned
+  in the previous call to the API
+
+Example: Using an API that returns entries from an activity log
+in descending time order, and the last record returned had a time stamp
+of `"2013-10-30T15:06:22,556645642Z"` we could ask for the next 50 records
+with:
+
+`GET http://example.com/activities?limit=50&following=2013-10-30T15:06:22,556645642Z`
+
+Example: Using an API that returns registered users sorted by their
+user names in ascending order, and the last user returned was named
+`"Jane Smith"` we could ask for the next group of names with:
+
+`GET http://example.com/users?following=Jane%20Smith`
+
 ## Request & Response Examples
 
 ### API Resources
