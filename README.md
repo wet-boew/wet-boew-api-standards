@@ -204,11 +204,6 @@ Example use:
     * http://organizationName.ca/api/dataset?limit=25&page=3
         * For row is base 1 rows 151 through 175 should be returned
 
-#* To get records 51 through 75 this is the expected call:
-#    * http://organizationName.ca/magazines?limit=25&offset=50
-#    * offset=50 means, ‘skip the first 50 records’
-#    * limit=25 means, ‘return 25 records’
-
 ### Metadata
 
 Information about record limits should also be included in the Example resonse. Example:
