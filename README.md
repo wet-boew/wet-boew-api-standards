@@ -56,26 +56,26 @@ This document borrows heavily from:
 
 ### Good URL examples
 * List of magazines:
-    * http://organizationName.ca/api/magazines/
+    * http://example.gc.ca/api/magazines/
 * Filtering is a query:
-    * http://organizationName.ca/api/magazines?year=2011&sort=desc
-    * http://organizationName.ca/api/magazines?topic=economy&year=2011
+    * http://example.gc.ca/api/magazines?year=2011&sort=desc
+    * http://example.gc.ca/api/magazines?topic=economy&year=2011
 * All articles in (or belonging to) this magazine:
-    * http://organizationName.ca/api/magazines/1234/articles
+    * http://example.gc.ca/api/magazines/1234/articles
 * Specify optional fields in a comma separated list:
-    * http://organizationName.ca/api/magazines/1234?fields=title,subtitle,date
+    * http://example.gc.ca/api/magazines/1234?fields=title,subtitle,date
 * Add a new article to a particular magazine:
-    * POST http://organizationName.ca/api/magazines/1234/articles
+    * POST http://example.gc.ca/api/magazines/1234/articles
 
 ### Bad URL examples
 * Non-plural noun:
-    * http://organizationName.ca/magazine
-    * http://organizationName.ca/magazine/1234
-    * http://organizationName.ca/publisher/magazine/1234
+    * http://example.gc.ca/magazine
+    * http://example.gc.ca/magazine/1234
+    * http://example.gc.ca/publisher/magazine/1234
 * Verb in URL:
-    * http://organizationName.ca/magazine/1234/create
+    * http://example.gc.ca/magazine/1234/create
 * Filter outside of query string
-    * http://organizationName.ca/magazines/2011/desc
+    * http://example.gc.ca/magazines/2011/desc
 
 ## HTTP Verbs
 
@@ -108,7 +108,7 @@ Error responses should include a common HTTP status code, message for the develo
         suggestions about how to solve their problems here",
         "userMessage" : "This is a message that can be passed along to end-users, if needed.",
         "errorCode" : "444444",
-        "more info" : "http://organizationName.ca/developer/path/to/help/for/444444,
+        "more info" : "http://example.gc.ca/developer/path/to/help/for/444444,
         http://drupal.org/node/444444",
     }
 
@@ -128,14 +128,14 @@ User selected language is prefered as it allows for a lighter footprint and a mo
 
 This is best executed through a query parameter.  Language components are changed in place with the selected language code.
 
-    * http://organizationName.ca/api/article/123-456/?language=en
+    * http://example.gc.ca/api/article/123-456/?language=en
 
     {
         "title": "Biosphere Reserve LiDAR Survey",
         ...
     }
 
-    * http://organizationName.ca/api/article/123-456/?language=fr
+    * http://example.gc.ca/api/article/123-456/?language=fr
 
     {
         "title": "Levé LiDAR aux environs du Réserve de biosphere",
@@ -197,9 +197,9 @@ The general logic is to shift to what would be the subsequent entry by the offse
 Much like offets defined ablove page= is an offset from the start of the larger dataset by the limit number.  If limit= is set to 25 and page= is set to 2 the total offset is 50, if the page= is set to 3 the total offset is 150.
 
 Example use:
-    * http://organizationName.ca/api/dataset?limit=25&offset=50
+    * http://example.gc.ca/api/dataset?limit=25&offset=50
         * For row is base 1 rows 51 through 75 should be returned
-    * http://organizationName.ca/api/dataset?limit=25&page=3
+    * http://example.gc.ca/api/dataset?limit=25&page=3
         * For row is base 1 rows 151 through 175 should be returned
 
 ### Continue from
@@ -291,7 +291,7 @@ http://stackoverflow.com/questions/2067472/what-is-jsonp-all-about?answertab=vot
 
 ### GET /magazines
 
-Example: http://organizationName.ca/api/v1/magazines
+Example: http://example.gc.ca/api/v1/magazines
 
     {
         "metadata": {
@@ -336,7 +336,7 @@ Example: http://organizationName.ca/api/v1/magazines
 
 ### GET /magazines/[id]
 
-Example: http://organizationName.ca/api/v1/magazines/[id]
+Example: http://example.gc.ca/api/v1/magazines/[id]
 
     {
         "id": "1234",
@@ -353,13 +353,13 @@ Example: http://organizationName.ca/api/v1/magazines/[id]
 
 ### POST /magazines/[id]/articles
 
-Example: Create – POST  http://organizationName.ca/api/v1/magazines/[id]/articles
+Example: Create – POST  http://example.gc.ca/api/v1/magazines/[id]/articles
 
     {
         "title": "Raising Revenue",
         "author_first_name": "Jane",
         "author_last_name": "Smith",
-        "author_email": "jane.smith@organizationName.ca",
+        "author_email": "jane.smith@example.gc.ca",
         "year": "2012"
         "month": "August"
         "day": "18"
