@@ -47,11 +47,17 @@ This document borrows heavily from:
 
 ### Reverse DNS for Hypertext format
 
-Pending communication with IANA regarding registration Hypertext definition is defined as follows.
+Pending communication with IANA regarding root registration of Hypertext definition the following is strongly recomended as the likely standard.
 
-For GC 
+* For GC Hypertext the root is `ca.canada`
+* Further organizational ownership, parent through children.  `nrcan.gsc.ess.chis`
+* The api noun `earthquakes`
+* The version `-v1`
+* The format `+json`
 
-( must be described. Chris Majewski. )
+For the examples listed above the complete Hypertext format would be
+
+`ca.canada.nrcan.gsc.ess.chis.earthquakes-v1+json`
 
 ## RESTful URLs
 
