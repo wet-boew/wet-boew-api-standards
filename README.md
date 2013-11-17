@@ -23,7 +23,7 @@ Presently a Draft from the TBS Web Interoperability Working Group without a set 
 For the remainder of this document code, arguments and other undefiend technical statements will be `code fenced` as to be easily distinguishable from standard text.
 
 Arguments text will be used as follows:
-* Arguments stated in the url will be followed by an the equals sign '=' as `argument=`
+* Arguments stated in the URL will be followed by an the equals sign '=' as `argument=`
 * Arguments stated as a header will be followed by a colon ':' as `argument:`
 
 ## Standards
