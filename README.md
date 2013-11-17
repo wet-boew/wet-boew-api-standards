@@ -98,7 +98,7 @@ For the examples listed above the complete Hypertext format would be
 
 ## HTTP Verbs
 
-Assuming dogs is a list of all dogs, dog id 1234 is an instance named "Bogart"
+Assuming dogs is a list of all dogs, dog id 1234 is an instance of dog named "Bogart"
 
 | HTTP METHOD | POST            | GET       | PUT         | DELETE |
 | ----------- | --------------- | --------- | ----------- | ------ |
@@ -108,14 +108,14 @@ Assuming dogs is a list of all dogs, dog id 1234 is an instance named "Bogart"
 
 ## Responses
 * No values in keys
-    * Good, { name : "Bogart", breed: "Bulldog" }
-    * Bad, { Bogart: "bulldog" }
+    * Good, `{ "name" : "Bogart", "breed": "Bulldog" }`
+    * Bad, `{ "Bogart": "bulldog" }`
 * No internal-specific names (e.g. "node" and "taxonomy term")
-    * Good { dog_id: 12345 }
-    * Bad { did: 12345 }
+    * Good `{ "dog_id": 12345 }`
+    * Bad `{ "did": 12345 }`
 * Metadata should only contain direct properties of the response set, not properties of the members of the response set
-    * Good, metadata: { count: 3, next_dog: 1237 }
-    * Bad, metadata: { count: 3, dogs: "1234,1235,1236", breeds: "bulldog,mixed,poodle" }
+    * Good, `metadata: { "count": 3, "next_dog": 1237 }`
+    * Bad, `metadata: { "count": 3, "dogs": "1234,1235,1236", "breeds": "bulldog,mixed,poodle" }`
 
 ## Error handling
 
@@ -147,14 +147,14 @@ User selected language is prefered as it allows for a lighter footprint and a mo
 
 This is best executed through a query parameter.  Language components are changed in place with the selected language code.
 
-    * http://example.gc.ca/api/article/123-456/?language=en
+* http://example.gc.ca/api/article/123-456/?language=en
 
     {
         "title": "Biosphere Reserve LiDAR Survey",
         ...
     }
 
-    * http://example.gc.ca/api/article/123-456/?language=fr
+* http://example.gc.ca/api/article/123-456/?language=fr
 
     {
         "title": "Levé LiDAR aux environs du Réserve de biosphere",
@@ -165,7 +165,7 @@ This is best executed through a query parameter.  Language components are change
 
 Content in all available languages should appear in separate fields at the same level.
 
-Use a "_lang" suffix from BCP-47 on keys for both languages where possible or, at minimum, non-English languages.
+Use a `_lang` suffix from BCP-47 on keys for both languages where possible or, at minimum, non-English languages.
 
     {
         "title_en": "Biosphere Reserve LiDAR Survey",
@@ -192,7 +192,9 @@ or
 * The HTTP Header "Accept" must be defined and accepted to negotiate the API version 
     * "Accept: application/vnd.company.myapp.customer-v3+xml"
 
-## Record limits and offsets
+## Record limits, offsets, indexes and metadata
+
+These elements are to be added where possible and relevant.  Consideration for the client creates requierments such as moblie device limitations and dataset size.
 
 ### Limits
 
@@ -205,100 +207,87 @@ or
     * The organization decides what is to be in a row or object
     * Limits apply to the topmost logical row or object
 
+Limits are to be defined as the singular `limit=` followed by an integer.
+
 ### Offsets
 
 Offsets apply to the structured data returned from the API distinct from internal indexing in the data.  For the purpose of explanation we'll assume rows/objects return are numbered 1, 2, 3, 4, 5 to the limit.
 
 The general logic is to shift to what would be the subsequent entry by the offset ammount.  For a query that returns 1,2,3 an offset of 1 should return 2,3,4.
 
-### Pages
-
-Much like offets defined ablove page= is an offset from the start of the larger dataset by the limit number.  If limit= is set to 25 and page= is set to 2 the total offset is 50, if the page= is set to 3 the total offset is 150.
+Offsets are to be defined as the singular `offset=` followed by an integer.
 
 Example use:
-    * http://example.gc.ca/api/dataset?limit=25&offset=50
-        * For row is base 1 rows 51 through 75 should be returned
+    * http://example.gc.ca/api/dataset?limit=25&offset=75
+        * For row is base 1 rows 76 through 100 should be returned
+
+### Pages
+
+Much like offets defined above `page=` is an offset incremtented by the `limit=` argument.  If `limit=` is set to 25 and `page=` is set to 2 the total offset is 50, if the `page=` is set to 3 the total offset is 150.
+
+Example use:
     * http://example.gc.ca/api/dataset?limit=25&page=3
-        * For row is base 1 rows 151 through 175 should be returned
+        * For row is base 1 rows 76 through 100 should be returned
 
 ### Continue from
 
-`continueFrom` is an offset with a value based on the sort order of results returned.
-Use `continueFrom` to reliably request the following page of results without risk of skipping or receiving duplicate rows/objects due to insertions/deletions happening at the same time.
+`continueFrom=` is an offset with a value based on the sort order of results returned as an index.
 
-The value to pass to `continueFrom` is returned in the metadata of each response, when any rows/objects are returned.
+Use `continueFrom=` to reliably request the following page of results without risk of skipping or receiving duplicate rows/objects due to insertions/deletions happening at the same time.
+
+The value to pass to `continueFrom=` is returned in the metadata of each response, when any rows/objects are returned.
 Typically it is a single value copied from the last row/object, and could be a date, name, internal id or any other sortable type.
+
+Example use:
+    * http://example.gc.ca/api/dataset?limit=25&continueFrom=76
+        * For all row bases rows 76 through 100 should be returned
+    * http://example.gc.ca/api/dataset?limit=25&continueFrom=20130101.010101
+        * For all row bases rows starting from key 20130101.010101 through the next 25 rows from that index
 
 ### Metadata
 
-Information about record limits should also be included in the Example resonse. Example:
+Information relevant to record limits, offsets and indexes should also be included as described in the example resonse as a nested element.  Only relevant elements ( "count", "limit", "offset", "page" and "continueFrom" ) are required.
 
     {
         "metadata": {
             "resultset": {
                 "count": 25,
-                "offset": 50,
+                "limit": 25,
+                "offset": 75,
+            }
+        },
+        "results": [...]
+    }
+
+    {
+        "metadata": {
+            "resultset": {
+                "count": 25,
+                "limit": 25,
+                "page": 3,
+            }
+        },
+        "results": [...]
+    }
+
+    {
+        "metadata": {
+            "resultset": {
+                "count": 25,
                 "limit": 25,
                 "continueFrom": "20130101.010101",
             }
         },
-        "results": [
-            { ... },
-            ...
-            {
-                ...,
-                "released": "20130101.010101"
-            }
-        ]
+        "results": [...]
     }
 
 ## Documentation minimums
 
-( must be described. Chris Majewski. )
-
-## Mock Responses
-
-( Are mock responses standard?  The documentation should provide all the examples needed, real data should provide functional testing. I'd consider culling it.  Chris Majewski. )
-
-It is suggested that each resource accept a 'mock' parameter on the testing server. Passing this parameter should return a mock data response (bypassing the backend).
-
-Implementing this feature early in development ensures that the API will exhibit consistent behavior, supporting a test driven development methodology.
-
-Note: If the mock parameter is included in a request to the production environment, an error should be raised.
+( must be described. )
 
 ## Callbacks
 
-## JSONP
-
-( Is JSONP a wise recomendation? It's a competing stanard to our Metadata definitons.  I'd consider culling it. Chris Majewski )
-
-JSONP is easiest explained with an example. Here's a one from [StackOverflow](http://stackoverflow.com/questions/2067472/what-is-jsonp-all-about?answertab=votes#tab-top):
-
-> Say you're on domain abc.com, and you want to make a request to domain xyz.com. To do so, you need to cross domain boundaries, a no-no in most of browserland.
-
-> The one item that bypasses this limitation is `<script>` tags. When you use a script tag, the domain limitation is ignored, but under normal circumstances, you can't really DO anything with the results, the script just gets evaluated.
-
-> Enter JSONP. When you make your request to a server that is JSONP enabled, you pass a special parameter that tells the server a little bit about your page. That way, the server is able to nicely wrap up its response in a way that your page can handle.
-
-> For example, say the server expects a parameter called "callback" to enable its JSONP capabilities. Then your request would look like:
-
->         http://www.xyz.com/sample.aspx?callback=mycallback
-
-> Without JSONP, this might return some basic javascript object, like so:
-
->         { foo: 'bar' }
-
-> However, with JSONP, when the server receives the "callback" parameter, it wraps up the result a little differently, returning something like this:
-
->         mycallback({ foo: 'bar' });
-
-> As you can see, it will now invoke the method you specified. So, in your page, you define the callback function:
-
->         mycallback = function(data){
->             alert(data.foo);
->         };
-
-http://stackoverflow.com/questions/2067472/what-is-jsonp-all-about?answertab=votes#tab-top
+( must be described. )
 
 ## Request & Response Examples
 
@@ -367,8 +356,6 @@ Example: http://example.gc.ca/api/v1/magazines/[id]
         ],
         "created": "1231621302"
     }
-
-
 
 ### POST /magazines/[id]/articles
 
