@@ -16,8 +16,6 @@ Presently a Draft from the TBS Web Interoperability Working Group without a set 
 * [Official Languages](#official-languages)
 * [Versions](#versions)
 * [Record limits and offsets](#record-limits)
-* [Mock Responses](#mock-responses)
-* [JSONP](#jsonp)
 * [Request & Response Examples](#request-response-examples)
 
 ## Style guide
