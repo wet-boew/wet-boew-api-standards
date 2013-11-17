@@ -7,7 +7,8 @@ Presently a Draft from the TBS Web Interoperability Working Group without a set 
 
 * [Style guide](#style-guide)
 * [Standards](#standards)
-* [Response Format] (#response-format)
+* [Registration](#registration)
+* [Hypertext constraint] (#hypertext-constraint)
 * [RESTful URLs](#restful-urls)
 * [HTTP Verbs](#http-verbs)
 * [Responses](#responses)
@@ -38,6 +39,10 @@ This document borrows heavily from:
 * API Facade Pattern, by Brian Mulloy, Apigee
 * Web API Design, by Brian Mulloy, Apigee
 * Google Maps multiple language support
+
+## Registration
+
+( must be described. )
 
 ## Hypertext constraint
 
