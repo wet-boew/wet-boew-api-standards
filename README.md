@@ -5,6 +5,7 @@ Working requirements for Government of Canada APIs based on the [White House Web
 
 Presently a Draft from the TBS Web Interoperability Working Group without a set deliverable date.  RFC to [WET - GC Web API Standards](https://github.com/wet-boew/wet-boew-api-standards).
 
+* [Style guide](#style-guide)
 * [Standards](#standards)
 * [Response Format] (#response-format)
 * [RESTful URLs](#restful-urls)
@@ -18,6 +19,14 @@ Presently a Draft from the TBS Web Interoperability Working Group without a set 
 * [JSONP](#jsonp)
 * [Request & Response Examples](#request-response-examples)
 
+## Style guide
+
+For the remainder of this document code, arguments and other undefiend technical statements will be `code fenced` as to be easily distinguishable from standard text.
+
+Arguments text will be used as follows:
+* Arguments stated in the url will be followed by an the equals sign '=' as `argument=`
+* Arguments stated as a header will be followed by a colon ':' as `argument:`
+
 ## Standards
 
 This document provides a standard along with examples for Government of Canada Web APIs, encouraging consistency, maintainability, and best practices across applications. Government of Canada APIs aim to balance a truly RESTful API interface with a positive developer experience (DX).
@@ -30,13 +39,17 @@ This document borrows heavily from:
 * Web API Design, by Brian Mulloy, Apigee
 * Google Maps multiple language support
 
-## Response Format ( Hypertext contraint? )
+## Hypertext constraint
 
-* The HTTP Header "Accept" should be used to negotiate the API version 
-   * "Accept: application/vnd.company.myapp.customer-v3+xml"
-   * "Accept: application/vnd.company.myapp.customer-v3+json"
+* The HTTP Header `accept:` is to be used to negotiate the API version and format:
+   * `Accept: vnd.company.myapp.customer-v3+xml`
+   * `Accept: vnd.company.myapp.customer-v3+json`
 
-### Reverse DNS for Hypertext definition
+### Reverse DNS for Hypertext format
+
+Pending communication with IANA regarding registration Hypertext definition is defined as follows.
+
+For GC 
 
 ( must be described. Chris Majewski. )
 
