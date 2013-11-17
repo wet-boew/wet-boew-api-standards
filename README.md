@@ -190,9 +190,7 @@ or
 
 Offsets apply to the structured data returned from the API distinct from internal indexing in the data.  For the purpose of explanation we'll assume rows/objects return are numbered 1, 2, 3, 4, 5 to the limit.
 
-The general logic is to shift to what would be the subsequent entry by the offset ammount.  For a query that returns 1,2,3 an offset of 1 should return 2,3,4.  In a non-integer sets such as date.time ( eg: 20130101.010101, 20130101.010102, 20130101.010103 ) applying an offset of 1 would skip the first row and show the next in the series ( 20130101.010102, 20130101.010103, 20130101.010104 ).
-
-Non integer row offsets are also possible, the same shifting logic still applies.  For a single integer without units it's assumed it's a row offset, if a unit is applied and the API is aware of such unit offets one can be applied by such, be it time ( y m d h m s ), distance ( m km ), temperature ( C F K ) or any other offset logical to the data.
+The general logic is to shift to what would be the subsequent entry by the offset ammount.  For a query that returns 1,2,3 an offset of 1 should return 2,3,4.
 
 ### Pages
 
@@ -204,6 +202,14 @@ Example use:
     * http://organizationName.ca/api/dataset?limit=25&page=3
         * For row is base 1 rows 151 through 175 should be returned
 
+### Continue from
+
+`continueFrom` is an offset with a value based on the sort order of results returned.
+Use `continueFrom` to reliably request the following page of results without risk of skipping or receiving duplicate rows/objects due to insertions/deletions happening at the same time.
+
+The value to pass to `continueFrom` is returned in the metadata of each response, when any rows/objects are returned.
+Typically it is a single value copied from the last row/object, and could be a date, name, internal id or any other sortable type.
+
 ### Metadata
 
 Information about record limits should also be included in the Example resonse. Example:
@@ -213,11 +219,17 @@ Information about record limits should also be included in the Example resonse. 
             "resultset": {
                 "count": 25,
                 "offset": 50,
-                "limit": 25
+                "limit": 25,
+                "continueFrom": "20130101.010101",
             }
         },
         "results": [
-            { .. }
+            { ... },
+            ...
+            {
+                ...,
+                "released": "20130101.010101"
+            }
         ]
     }
 
