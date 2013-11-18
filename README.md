@@ -244,10 +244,8 @@ The value to pass to `continueFrom=` is returned in the metadata of each respons
 Typically it is a single value copied from the last row/object, and could be a date, name, internal id or any other sortable type.
 
 Example use:
-* http://example.gc.ca/api/dataset?limit=25&continueFrom=76
-    * For all row bases rows 76 through 100 should be returned
 * http://example.gc.ca/api/dataset?limit=25&continueFrom=20130101.010101
-    * For all row bases rows starting from key 20130101.010101 through the next 25 rows from that index
+    * For 25 rows following the row containing the sort order value 20130101.010101
 
 ### Metadata
 
