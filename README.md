@@ -236,7 +236,7 @@ Example use:
 
 ### Continue from
 
-`continueFrom=` is an offset with a value based on the sort order of results returned as an index.
+`continueFrom=` is an offset with a value based on the sort order of results returned.
 
 Use `continueFrom=` to reliably request the following page of results without risk of skipping or receiving duplicate rows/objects due to insertions/deletions happening at the same time.
 
