@@ -282,8 +282,6 @@ Information relevant to record limits, offsets and indexes should also be includ
             "resultset": {
                 "count": 18,
                 "limit": 25,
-                "page": 4,
-                "offset": 100,
                 "cursor": "20130101.010101"
             }
         },
