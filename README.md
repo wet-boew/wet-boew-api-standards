@@ -256,18 +256,9 @@ Information relevant to record limits, offsets and indexes should also be includ
             "resultset": {
                 "count": 25,
                 "limit": 25,
-                "offset": 75,
-            }
-        },
-        "results": [...]
-    }
-
-    {
-        "metadata": {
-            "resultset": {
-                "count": 25,
-                "limit": 25,
                 "page": 3,
+                "offset": 75,
+                "cursor": "sam100890032"
             }
         },
         "results": [...]
@@ -276,9 +267,24 @@ Information relevant to record limits, offsets and indexes should also be includ
     {
         "metadata": {
             "resultset": {
-                "count": 25,
+                "count": 100,
+                "limit": 100,
+                "page": 2,
+                "offset": 200,
+                "cursor": "Smith, John"
+            }
+        },
+        "results": [...]
+    }
+
+    {
+        "metadata": {
+            "resultset": {
+                "count": 18,
                 "limit": 25,
-                "continueFrom": "20130101.010101",
+                "page": 4,
+                "offset": 100,
+                "cursor": "20130101.010101"
             }
         },
         "results": [...]
