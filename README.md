@@ -195,7 +195,7 @@ or
 * The HTTP Header "Accept" must be defined and accepted to negotiate the API version 
     * "Accept: application/vnd.company.myapp.customer-v3+xml"
 
-## Record limits, offsets, indexes and metadata
+## Record limits, offsets, cursors and metadata
 
 These elements are to be added where possible and relevant.  Consideration for the client creates requierments such as moblie device limitations and dataset size.
 
@@ -234,18 +234,18 @@ Example use:
 * http://example.gc.ca/api/dataset?limit=25&page=3
     * For row is base 1 rows 76 through 100 should be returned
 
-### Continue from
+### Cursor
 
-`continueFrom=` is an offset with a value based on the sort order of results returned.
+`cursor=` is an offset with a value based on the sort order of results returned.
 
-Use `continueFrom=` to reliably request the following page of results without risk of skipping or receiving duplicate rows/objects due to insertions/deletions happening at the same time.
+Use `cursor=` to reliably iterate over all results without risk of skipping or receiving duplicate rows/objects due to insertions/deletions happening at the same time.
 
-The value to pass to `continueFrom=` is returned in the metadata of each response, when any rows/objects are returned.
+The string value use with `cursor=` is returned in the metadata of each response when any rows/objects are returned.
 Typically it is a single value copied from the last row/object, and could be a date, name, internal id or any other sortable type.
 
 Example use:
-* http://example.gc.ca/api/dataset?limit=25&continueFrom=20130101.010101
-    * For 25 rows following the row containing the sort order value 20130101.010101
+* http://example.gc.ca/api/dataset?limit=25&cursor=20130101.010101
+    * For 25 rows following the row containing the sort order value "20130101.010101"
 
 ### Metadata
 
