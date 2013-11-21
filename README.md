@@ -144,43 +144,30 @@ The three base states to recognize are success, improper request ( client error 
 
 ## Official Languages
 
-### Caller-specified language
-
-User selected language is prefered as it allows for a lighter footprint and a more common language independant framework.
-
-This is best executed through a query parameter.  Language components are changed in place with the selected language code.
-
-* http://example.gc.ca/api/article/123-456/?language=en
+For fields containing language content all languages are returned in a nested manner with BCP-47 language codes used as keys.
 
     {
-        "title": "Biosphere Reserve LiDAR Survey",
+        "title": {
+             "fr": "Levé LiDAR aux environs du Réserve de biosphere",
+             "en": "Biosphere Reserve LiDAR Survey"
+        },
+        "resource_count": 5,
+        "state": "active",
         ...
     }
 
-* http://example.gc.ca/api/article/123-456/?language=fr
+Fields with values chosen from a limited set, such as "state" above, are represented with a single value.
+
+### Filtering languages
+
+The languages returned may be filtered with a `languages=` parameter.
+
+Example: If `languages=fr` is passed to the API above it would return:
 
     {
-        "title": "Levé LiDAR aux environs du Réserve de biosphere",
-        ...
-    }
-
-### All in one request
-
-Content in all available languages should appear in separate fields at the same level.
-
-Use a `_lang` suffix from BCP-47 on keys for both languages where possible or, at minimum, non-English languages.
-
-    {
-        "title_en": "Biosphere Reserve LiDAR Survey",
-        "title_fr": "Levé LiDAR aux environs du Réserve de biosphere",
-        ...
-    }
-
-or
-
-    {
-        "title": "Biosphere Reserve LiDAR Survey",
-        "title_fr": "Levé LiDAR aux environs du Réserve de biosphere",
+        "title": {
+             "fr": "Levé LiDAR aux environs du Réserve de biosphere",
+        },
         ...
     }
 
