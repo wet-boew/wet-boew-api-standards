@@ -144,7 +144,8 @@ The three base states to recognize are success, improper request ( client error 
 
 ## Official Languages
 
-For fields containing language content all languages are returned in a nested manner with BCP-47 language codes used as keys.
+Best practice: For fields containing language content all languages are
+returned in a nested manner with BCP-47 language codes used as keys.
 
     {
         "title": {
@@ -160,9 +161,10 @@ Fields with values chosen from a limited set, such as "state" above, are represe
 
 ### Filtering languages
 
-The languages returned may be filtered with a `languages=` parameter.
+Recommended: The languages returned may be filtered with a `lang=` parameter.
+Multiple comma-separated languages may be passed.
 
-Example: If `languages=fr` is passed to the API above it would return:
+Example: If `lang=fr` is passed to the API above it would return:
 
     {
         "title": {
