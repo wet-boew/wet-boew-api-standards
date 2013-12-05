@@ -144,7 +144,15 @@ The three base states to recognize are success, improper request ( client error 
 
 ## Official Languages
 
-For fields containing language content all languages are returned in a nested manner with BCP-47 language codes used as keys.
+Best practice: Implement one or both of the following methods for
+including multilingual data in responses.
+
+### Single endpoint
+
+Recommended for writable APIs, for APIs returning many non-language fields
+and for APIs supporting more than the two official languages.
+
+All languages are returned in a nested manner with BCP-47 language codes used as keys.
 
     {
         "title": {
@@ -158,18 +166,37 @@ For fields containing language content all languages are returned in a nested ma
 
 Fields with values chosen from a limited set, such as "state" above, are represented with a single value.
 
-### Filtering languages
+### Multiple language endpoints
 
-The languages returned may be filtered with a `languages=` parameter.
+Recommended for APIs returning many fields containing language content.
 
-Example: If `languages=fr` is passed to the API above it would return:
+Create two APIs with the language included in the API URL.
+
+Example: the same resource with language fields returned in only a single
+language is available from:
+
+* http://example.gc.ca/en/api/resource/[id]
+* http://example.gc.ca/fr/api/resource/[id]
+
+The domain and API URLs must match exactly so that callers can retrieve
+the corresponding results in the other language easily.  If French and
+English content is served from separate domains then both APIs must be
+available on both domains.
+
+Language fields are returned as objects with their language as the only key:
 
     {
         "title": {
              "fr": "Levé LiDAR aux environs du Réserve de biosphere",
         },
+        "resource_count": 5,
+        "state": "active",
         ...
     }
+
+Non-language fields must not be different when the same resource is retrieved
+in both languages.
+
 
 ## Versions
 
