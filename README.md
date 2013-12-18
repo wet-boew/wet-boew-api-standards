@@ -1,223 +1,263 @@
 GC Web API Standards
-======================
+====================
 
-Working requirements for Government of Canada APIs based on the [White House Web API Standards](https://github.com/WhiteHouse/api-standards)
+<span color='red'>
+Working requirements for Government of Canada (GoC) Web Application Programming Interfaces (API)s.
 
-Presently a Draft from the TBS Web Interoperability Working Group without a set deliverable date.  RFC to [WET - GC Web API Standards](https://github.com/wet-boew/wet-boew-api-standards).
+Presently a draft from the TBS Web Interoperability Working Group with the intent to deliver a first working draft by the next Web Managers Council.  RFC to [WET - GC Web API Standards](https://github.com/wet-boew/wet-boew-api-standards).
+</span>
 
-* [Style guide](#style-guide)
-* [Standards](#standards)
-* [Registration](#registration)
-* [Hypertext constraint] (#hypertext-constraint)
-* [RESTful URLs](#restful-urls)
-* [HTTP Verbs](#http-verbs)
-* [Responses](#responses)
-* [Error handling](#error-handling)
-* [Official Languages](#official-languages)
-* [Versions](#versions)
-* [Record limits and offsets](#record-limits)
-* [Request & Response Examples](#request-response-examples)
 
-## Style guide
+* [This Document](#this-document)
+    * [Goal](#goal)
+    * [Structure](#structure)
+    * [Style Guide](#style-guide)
+* [Web API Implementation](#web-api-implementation)
+    * [1. Minimum Delivery](#1-minimum-delivery)
+        * [1.1 HTTP Header](#11-http-header)
+            * [1.1.1 Media Type](#111-media-type)
+            * [1.1.2 Language](#112-language)
+        * [1.2 HTTP Methods](#12-http-methods)
+        * [1.3 Output](#13-output)
+            * [1.3.1 Metadata](#131-metadata)
+            * [1.3.2 Minimum Formats](#132-minimum-formats)
+            * [1.3.3 Official Languages](#133-official-languages)
+        * [1.4 Documentation](#14-documentation)
+        * [1.5 Registration](#15-registration)
+    * [2. Optional Features](#2-optional-features)
+        * [2.1 Dataset segmenting](#21-dataset-segmenting)
+            * [2.1.1 Limits](#211-limits)
+            * [2.1.2 Offsets](#212-offsets)
+            * [2.1.3 Pages](#213-pages)
+            * [2.1.4 Cursor](#214-cursor)
+            * [2.1.5 Dataset segmenting metadata](#215-dataset-segmenting-metadata)
+        * [2.2 Structured Error Handling](#22-structured-error-handling)
+        * [2.3 URI argument filtering](#23-uri-argument-filtering)
+        * [2.4 URI path filtering](#24-uri-path-filtering)
+        * [2.5 Versioning](#25-versioning)
+    * [3. Best Practices](#3-best-practices)
+        * [3.1 URI Structure](#31-uri-structure)
+            * [3.1.1 /api/](#311-api)
+            * [3.1.2 /developer/](#312-developer)
+            * [3.1.3 /data/](#313-data)
+        * [3.2 Human readable intuitive keys](#32-human-readable-intuitive-keys)
+        * [3.3 Responses](#33-responses)
+            * [3.3.1 Values in Keys](#331-values-in-keys)
+            * [3.3.2 Internal Specific Keys](#332-internal-specific-keys)
+            * [3.3.3 Metadata is dataset properties](#333-metadata-is-dataset-properties)
+        * [3.4 Caching](#34-caching)
+        * [3.5 Client registration](#35-client-registration)
+* [Examples](#examples)
 
-For the remainder of this document code, arguments and other undefiend technical statements will be `code fenced` as to be easily distinguishable from standard text.
+## This document
+
+### Goal
+The goal of this document is to ensure API delivery across the Government of Canada (GoC) is consistent and up to the highest standards by defining a base level of delivery and only describing expansion when further comment is required.
+
+The intent is to maintain a living document that adapts to changes in the landscape of Web API delivery but at the same time being mindful of established and mandated standards presently adopted inside and outside the GoC.
+
+It's expected that anything not described in this document is to be implemented from best practices with an eye to interoperability, maintainability and future direction.  Gaps, errors or new best practices should be brought to the Web Standards Office (WSO) Web Interoperability Working Group (WIWG).
+
+GoC APIs aim to balance a truly RESTful API interface with a positive developer experience (DX).
+
+### Structure
+This document describes API requirements by priority:
+
+* [Minimum delivery](#1-minimum-delivery)
+* [Optional features](#2-optional-features)
+* [Best practices](#3-best-practices)
+
+### Style Guide
+For the remainder of this document code, arguments and other undefined technical statements will be `code fenced` as to be easily distinguishable from standard text.
 
 Arguments text will be used as follows:
-* Arguments stated in the URL will be followed by an the equals sign '=' as `argument=`
 * Arguments stated as a header will be followed by a colon ':' as `argument:`
+* Arguments stated as a URI argument will be followed by an the equals sign '=' as `argument=`
+* Arguments stated as a URI path element will be bracketed with forward slashes '/' as `/argument/`
+* Arguments stated as a file format extension will be prefaced with a period '.' as `.arg`
 
-## Standards
+Draft comments are to be bracketed with the following.
+`TODO:`, `NOTE:` and `ISSUE:`
 
-This document provides a standard along with examples for Government of Canada Web APIs, encouraging consistency, maintainability, and best practices across applications. Government of Canada APIs aim to balance a truly RESTful API interface with a positive developer experience (DX).
+## Web API Implementation
+Web APIs in the GoC are to be RESTful as described by Roy Thomas Fielding's dissertation "Architectural Styles and the Design of Network-based Software Architectures" (2000) adapted to mandated minimums for the GoC and design choices in support of Web Interoperability.
 
-This document borrows heavily from:
-* [The White House Web API Standards] (https://github.com/WhiteHouse/api-standards)
-* [Fieldings Dissertation on REST](http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm)
-* [Designing HTTP Interfaces and RESTful Web Services](http://munich2012.drupal.org/program/sessions/designing-http-interfaces-and-restful-web-services)
-* API Facade Pattern, by Brian Mulloy, Apigee
-* Web API Design, by Brian Mulloy, Apigee
-* Google Maps multiple language support
+The intent is not to limit development to the prescribed minimums but to ensure that GoC Web APIs behave consistently.  Any and all other requirements or options not described in this document may be implemented at the discretion of the API owner so long as the [minimum delivery](#minimum-delivery) and delivery standard of [optional features](#optional-features) are met.
 
-## Registration
+### 1. Minimum delivery
+Interoperability depends greatly on common implementation at the very least a minimum platform.  This his section describe mandatory elements in input, output and maintenance that must be found in a GoC API and behave as described.
 
-( must be described. )
+#### 1.1 HTTP Header
+Headers variables are part of the request and response cycle in the Hypertext Transfer Protocol (HTTP).  Although not explicitly prescribed by RESTful design header negotiation is a widely used method in defining state in format and/or language and as such need to be supported.  Supporting headers for format and language bridges, in part, a divide in the theory of proper implementation.
 
-## Hypertext constraint
+The minimum header variables to be supported are media type through `Accept:` and language through `Accept-Language:`.  Supplemental header variables in request (e.g.: `Accept-Charset:`, `Accept-Encoding:`) or response (e.g.: `Content-Language:`, `Content-Length:`) can aid in delivery and efficiency where appropriate but are not required.
 
-* The HTTP Header `accept:` is to be used to negotiate the API version and format:
-   * `Accept: vnd.company.myapp.customer-v3+xml`
-   * `Accept: vnd.company.myapp.customer-v3+json`
+Supplemental methods of specifying language or output formats such as [URI argument filtering](#23-uri-argument-filtering) or [URI path filtering](#24-uri-path-filtering) may override header variables when required.
 
-### Reverse DNS for Hypertext format
+##### 1.1.1 Media Type
+Output format, commonly known as media type, from a Web API are historically described by Multipurpose Internet Mail Extensions (MIME) types registered with the Internet Assigned Numbers Authority (IANA)'s media type catalogue.  For most standard file types IANA's media type catalogue will provide the appropriate type definition.
 
-Pending communication with IANA regarding root registration of Hypertext definition the following is strongly recomended as the likely standard.
+The `Accept:` header is described by W3C RFC2616 Section 14.1 (http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1)
 
-* For GC Hypertext the root is `ca.canada`
-* Further organizational ownership, parent through children.  `nrcan.gsc.ess.chis`
-* The api noun `earthquakes`
-* The version `-v1`
-* The format `+json`
+The media types are defined by by IANA.org (http://www.iana.org/assignments/media-types/media-types.xhtml)
 
-For the examples listed above the complete Hypertext format would be
+##### 1.1.2 Language
+The `Accept-Language:` header is described by W3C RFC2616 Section 14.4 (http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4)
 
-`ca.canada.nrcan.gsc.ess.chis.earthquakes-v1+json`
+Languages are to be defined by the W3C recommended BCP-47 (http://www.w3.org/International/core/langtags/#bcp47).
 
-## RESTful URLs
+#### 1.2 HTTP Methods
+HTTP Methods are often described in APIs as verbs.  Verbs refer to standard actions taken on data, those standard verbs are (POST, GET, PUT and DELETE).
 
-### Standards for RESTful URLs
-* A URL identifies a resource.
-* URLs should include nouns, not verbs.  Nouns have properties, verbs do not.
-* Nouns should be plural as the resource to multiple instances of that noun.
-* You shouldn’t need to go deeper than resource/identifier/resource.
-* As a whole APIs should define complexity with multiple noun end points.
-* URL v. header:
-    * If it changes the logic you write to handle the response, put it in the URL.
-    * If it doesn’t change the logic for each response, like OAuth info, put it in the header.
-* Specify optional fields in a comma separated list.
-* Formats should be in the form of api/resource/{id}
+Assuming dogs is a list of all dogs, dog id 1234 is an instance of dog named "Bogart" and instance 4321 is "Shreddies"
 
-### Good URL examples
-* List of magazines:
-    * http://example.gc.ca/api/magazines/
-* Filtering is a query:
-    * http://example.gc.ca/api/magazines?year=2011&sort=desc
-    * http://example.gc.ca/api/magazines?topic=economy&year=2011
-* All articles in (or belonging to) this magazine:
-    * http://example.gc.ca/api/magazines/1234/articles
-* Specify optional fields in a comma separated list:
-    * http://example.gc.ca/api/magazines/1234?fields=title,subtitle,date
-* Add a new article to a particular magazine:
-    * POST http://example.gc.ca/api/magazines/1234/articles
+| HTTP METHOD | POST            | GET            | PUT              | DELETE           |
+| ----------- | --------------- | -------------- | ---------------- | ---------------- |
+| CRUD OP     | CREATE          | READ           | UPDATE           | DELETE           |
+| /dogs       | Create new dogs | List dogs      | Bulk update      | Delete all dogs  |
+| /dogs/1234  | Error           | Show Bogart    | update Bogart    | Delete Bogart    |
+| /dogs/4321  | Error           | Show Shreddies | update Shreddies | Delete Shreddies |
 
-### Bad URL examples
-* Non-plural noun:
-    * http://example.gc.ca/magazine
-    * http://example.gc.ca/magazine/1234
-    * http://example.gc.ca/publisher/magazine/1234
-* Verb in URL:
-    * http://example.gc.ca/magazine/1234/create
-* Filter outside of query string
-    * http://example.gc.ca/magazines/2011/desc
+HTTP Methods are described by W3C RFC2616 Sections 9.3, 9.4, 9.6 and 9.7 (http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html)
 
-## HTTP Verbs
+### 1.3 Output
 
-Assuming dogs is a list of all dogs, dog id 1234 is an instance of dog named "Bogart"
+#### 1.3.1 Metadata
 
-| HTTP METHOD | POST            | GET       | PUT         | DELETE |
-| ----------- | --------------- | --------- | ----------- | ------ |
-| CRUD OP     | CREATE          | READ      | UPDATE      | DELETE |
-| /dogs       | Create new dogs | List dogs | Bulk update | Delete all dogs |
-| /dogs/1234  | Error           | Show Bogart | If exists, update Bogart; If not, error | Delete Bogart |
+Representing data about the returned dataset will be required for proper operation of certain features and describing the data provided.
 
-## Responses
-* No values in keys
-    * Good, `{ "name" : "Bogart", "breed": "Bulldog" }`
-    * Bad, `{ "Bogart": "bulldog" }`
-* No internal-specific names (e.g. "node" and "taxonomy term")
-    * Good `{ "dog_id": 12345 }`
-    * Bad `{ "did": 12345 }`
-* Metadata should only contain direct properties of the response set, not properties of the members of the response set
-    * Good, `metadata: { "count": 3, "next_dog": 1237 }`
-    * Bad, `metadata: { "count": 3, "dogs": "1234,1235,1236", "breeds": "bulldog,mixed,poodle" }`
+To avoid collision with the data and general interoperability metadata is to be described in a variable in the response.
 
-## Error handling
+Two fields are required in the metadata variable.
 
-Error responses should include a common HTTP status code, message for the developer, message for the end-user (when appropriate), internal error code (corresponding to some specific internally determined error number) and links where developers can find more info.
+* The creation date-time of the response in ISO 8601 date-time format with timezone.
+* The licenses relevant to the dataset presented.
 
+```JSON
+{
+    "metadata":
     {
-        "status" : "400",
-        "developerMessage" : "Verbose, plain language description of the problem. Provide developers
-        suggestions about how to solve their problems here",
-        "userMessage" : "This is a message that can be passed along to end-users, if needed.",
-        "errorCode" : "444444",
-        "more info" : "http://example.gc.ca/developer/path/to/help/for/444444,
-        http://drupal.org/node/444444",
+        "dateCreated": "2014-01-01T00:00:00+00:00",
+        "licenses":
+        {
+            "http://example.gc.ca/license-eng.php",
+            "http://data.gc.ca/eng/open-government-licence-canada"
+        }
     }
+}
+```
 
-General response codes are preferable where a clear code is not available.  General codes should serve for automated recognition of general state and propper error handling offer a path to resolution.
+Where possible describe the dataset validity, additional licenses and publishers with Schema.org as the namespace.  This is consistent and interoperable with RDFa's usage in the Standard on Web Interoperability Appendix E: HTML data requirements (http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=25875&section=text)
 
-The three base states to recognize are success, improper request ( client error ) and internal server error ( API error ).  These better defined by the following HTTP Status codes:
-
-* 200 - OK
-* 400 - Bad Request
-* 500 - Internal Server Error
-
-## Official Languages
-
-Best practice: Implement one or both of the following methods for
-including multilingual data in responses.
-
-### Single endpoint
-
-Recommended for writable APIs, for APIs returning many non-language fields
-and for APIs supporting more than the two official languages.
-
-All languages are returned in a nested manner with BCP-47 language codes used as keys.
-
-    {
-        "title": {
-             "fr": "Levé LiDAR aux environs du Réserve de biosphere",
-             "en": "Biosphere Reserve LiDAR Survey"
-        },
-        "resource_count": 5,
-        "state": "active",
-        ...
+```JSON
+{
+    "metadata":{
+        "name":"Earthquakes >4 for 1992",
+        "description":"Earthquakes magnitude 4 or greater, 1992 calendar year",
+        "keywords":"earthquake data",
+        "dateModified":"1867-07-01T00:00:01+00:00",
+        "publisher": "Government of Canada",
+        "dateCreated":"2014-01-01T00:00:00+00:00"
     }
+}
+````
 
-Fields with values chosen from a limited set, such as "state" above, are represented with a single value.
+Elements used in this description:
 
-### Multiple language endpoints
+* http://schema.org/name
+* http://schema.org/description
+* http://schema.org/keywords
+* http://schema.org/dateModified
+* http://schema.org/publisher
+* http://schema.org/dateCreated
 
-Recommended for APIs returning many fields containing language content.
+Mandated use of ISO 8601 in the TBS Standard on Metadata (http://www.tbs-sct.gc.ca/pol/doc-eng.aspx?id=18909&section=text#sec9.4)
 
-Create two APIs with the language included in the API URL.
+Use of timezones in ISO 8601 (http://en.wikipedia.org/wiki/ISO_8601#Time_zone_designators)
 
-Example: the same resource with language fields returned in only a single
-language is available from:
+#### 1.3.2 Minimum Formats
 
-* http://example.gc.ca/en/api/resource/[id]
-* http://example.gc.ca/fr/api/resource/[id]
+Leading API frameworks and present day implementation of APIs delivery two output formats, JSON and XML.  Trends may be leading to JSON only APIs but development tools and applications may still support only one of the two options.  To maximize the client base a GoC API must output both JSON and XML at a minimum.
 
-The domain and API URLs must match exactly so that callers can retrieve
-the corresponding results in the other language easily.  If French and
-English content is served from separate domains then both APIs must be
-available on both domains.
+https://www.google.com/trends/explore?q=xml+api#q=xml%20api%2C%20json%20api&cmpt=q
 
-Language fields are returned as objects with their language as the only key:
+#### 1.3.3 Official Languages
 
-    {
-        "title": {
-             "fr": "Levé LiDAR aux environs du Réserve de biosphere",
-        },
-        "resource_count": 5,
-        "state": "active",
-        ...
+All English or French content returned as data are to be nested with BCP-47 language codes used as keys.  If the content is unilingual offer the alternate language in metadata.
+
+Bilingual
+```JSON
+{
+    "size": {
+         "fr": "Gros",
+         "en": "Large"
+    },
+    "type": {
+         "fr": "Chien",
+         "en": "Dog"
     }
+}
+```
 
-Non-language fields must not be different when the same resource is retrieved
-in both languages.
+French Only
+```JSON
+{
+    "metadata": { "en": "http://example.gc.ca/apis/dogs" },
+    "size": {
+         "fr": "Gros"
+    },
+    "type": {
+         "fr": "Chien"
+    }
+}
+```
 
+English Only
+```JSON
+{
+    "metadata": { "fr": "http://exemple.gc.ca/apis/chiens" },
+    "size": {
+         "en": "Large"
+    },
+    "type": {
+         "en": "Dog"
+    }
+}
+```
 
-## Versions
+Bilingual, English and French endpoints must all offer bilingual, French or English results if requested by `Accept-Language:`, `query-parameter=` or other means.
 
-* APIs should always have a version number to maintain relation 
-* Versions should be integers, not decimal numbers, prefixed with ‘v’
-    * Good: v1, v2, v3
-    * Bad: v-1.1, v1.2, 1.3
-* Major version numbers are required if a change can produce changes in logic
-* APIs should be maintained at least one version back
-* The HTTP Header "Accept" must be defined and accepted to negotiate the API version 
-    * "Accept: application/vnd.company.myapp.customer-v3+xml"
+The calculated language (e.g.: `Accept-Language:` or query parameters) should be overridden if the media-type is HTML and it conflicts with the official language of the public web page served from the API.
 
-## Record limits, offsets, cursors and metadata
+```
+Accept: text/html
+Accept-Language: en
+URL: http://exemple.gc.ca/api/chiens
+```
 
-These elements are to be added where possible and relevant.  Consideration for the client creates requierments such as moblie device limitations and dataset size.
+The scenario above could return English content on the French `http://exemple.gc.ca/api/chiens` page.
 
-### Limits
+### 1.4 Documentation
+
+`TODO: Known gap, to be complete early Jan`
+
+### 1.5 Registration
+
+`TODO: Known gap, to be complete early Jan`
+
+## 2. Optional features
+
+Beyond the base delivery of an API features can help clients better access and use the data.  Elements in this section describe mandatory implementation of the the optional elements.
+
+### 2.1 Dataset segmenting
+
+Limits are nearly always mandatory, only limited size datasets are safe to to implement without a default and maximum limit.  These elements are strongly recommended where possible and relevant.  A second, but no less important, consideration for the client creates requirements such as mobile device limitations and dataset size.
+
+#### 2.1.1 Limits
 
 * If no limit is specified, return results with a default limit.
     * Sanity check to a reasonable return size
-    * Sanity check to a reaonsable execution time
+    * Sanity check to a reasonable execution time
     * For small datasets limits may exceed row count
 
 * Limits are row / object limits
@@ -226,11 +266,11 @@ These elements are to be added where possible and relevant.  Consideration for t
 
 Limits are to be defined as the singular `limit=` followed by an integer.
 
-### Offsets
+#### 2.1.2 Offsets
 
 Offsets apply to the structured data returned from the API distinct from internal indexing in the data.  For the purpose of explanation we'll assume rows/objects return are numbered 1, 2, 3, 4, 5 to the limit.
 
-The general logic is to shift to what would be the subsequent entry by the offset ammount.  For a query that returns 1,2,3 an offset of 1 should return 2,3,4.
+The general logic is to shift to what would be the subsequent entry by the offset amount.  For a query that returns 1,2,3 an offset of 1 should return 2,3,4.
 
 Offsets are to be defined as the singular `offset=` followed by an integer.
 
@@ -239,157 +279,243 @@ Example use:
 * http://example.gc.ca/api/dataset?limit=25&offset=75
     * For row is base 1 rows 76 through 100 should be returned
 
-### Pages
+#### 2.1.3 Pages
 
-Much like offets defined above `page=` is an offset incremtented by the `limit=` argument.  If `limit=` is set to 25 and `page=` is set to 2 the total offset is 50, if the `page=` is set to 3 the total offset is 150.
+Much like offsets defined above `page=` is an offset incremented by the `limit=` argument.  If `limit=` is set to 25 and `page=` is set to 2 the total offset is 50, if the `page=` is set to 3 the total offset is 150.
 
 Example use:
 
 * http://example.gc.ca/api/dataset?limit=25&page=3
     * For row is base 1 rows 76 through 100 should be returned
 
-### Cursor
+#### 2.1.4 Cursor
 
 `cursor=` is an offset with a value based on the sort order of results returned.
 
-Use `cursor=` to reliably iterate over all results without risk of skipping or receiving duplicate rows/objects due to insertions/deletions happening at the same time.
+Use `cursor=` to reliably iterate over results without risk of skipping or receiving duplicate rows/objects due to insertions/deletions.
 
-The string value use with `cursor=` is returned in the metadata of each response when any rows/objects are returned.
-Typically it is a single value copied from the last row/object, and could be a date, name, internal id or any other sortable type.
+The string value use with `cursor=` is returned in the metadata of each response when any rows/objects are returned.  Typically it is a single value copied from the last row/object, and could be a date, name, internal id or any other sortable type.
 
 Example use:
 * http://example.gc.ca/api/dataset?limit=25&cursor=20130101.010101
     * For 25 rows following the row containing the sort order value "20130101.010101"
 
-### Metadata
+#### 2.1.5 Dataset segmenting metadata
 
-Information relevant to record limits, offsets and indexes should also be included as described in the example resonse as a nested element.  Only relevant elements ( "count", "limit", "offset", "page" and "continueFrom" ) are required.
+Information relevant to record limits, offsets and cursors should also be included as described in the example response as a nested element.  Only relevant elements ("count", "limit", "offset", "page" and "cursor") are required.
 
-    {
-        "metadata": {
-            "resultset": {
-                "count": 25,
-                "limit": 25,
-                "page": 3,
-                "offset": 75,
-                "cursor": "sam100890032"
-            }
-        },
-        "results": [...]
+```JSON
+{
+    "metadata": {
+        "resultSet": {
+            "count": 25,
+            "limit": 25,
+            "page": 3,
+            "offset": 75,
+            "cursor": "sam100890032"
+        }
     }
+}
+```
 
-    {
-        "metadata": {
-            "resultset": {
-                "count": 100,
-                "limit": 100,
-                "page": 2,
-                "offset": 200,
-                "cursor": "Smith, John"
-            }
-        },
-        "results": [...]
+```JSON
+{
+    "metadata": {
+        "resultSet": {
+            "count": 100,
+            "limit": 100,
+            "page": 2,
+            "offset": 200,
+            "cursor": "Smith, John"
+        }
     }
+}
+```
 
-    {
-        "metadata": {
-            "resultset": {
-                "count": 18,
-                "limit": 25,
-                "cursor": "20130101.010101"
-            }
-        },
-        "results": [...]
+```JSON
+{
+    "metadata": {
+        "resultSet": {
+            "count": 18,
+            "limit": 25,
+            "cursor": "20130101.010101"
+        }
     }
+}
+```
 
-## Documentation minimums
+### 2.2 Structured Error Handling
 
-( must be described. )
+Although errors can be represented by HTTP status code alone structured error handling improves the ability to resolve issues for both consumer and maintainer.
 
-## Callbacks
+Research into common practice provides the following error structure:
+* Error responses are to be an HTTP status code
+* The same code is to be included
+* A message for the developer
+* A message for the end-user (when appropriate)
+* An internal error code (corresponding to an internal code if available)
+* A link where developers can find more information (if available)
 
-( must be described. )
+In JSON format
 
-## Request & Response Examples
+```JSON
+{
+    "status" : "400",
+    "developerMessage" : "Verbose, plain language description of the problem. Provide developers
+    suggestions about how to solve their problems here",
+    "userMessage" : "This is a message that can be passed along to end-users, if needed.",
+    "errorCode" : "444444",
+    "more info" : "http://example.gc.ca/developer/path/to/help/for/444444",
+}
+```
 
-### API Resources
+The three base states to recognize are success, improper request (client error) and internal server error (API error).  These better defined by the following HTTP Status codes:
 
-  - [GET /magazines](#get-magazines)
-  - [GET /magazines/[id]](#get-magazinesid)
-  - [POST /magazines/[id]/articles](#post-magazinesidarticles)
+* 200 - OK
+* 400 - Bad Request
+* 500 - Internal Server Error
 
-### GET /magazines
+Where possible the use the appropriate HTTP status code such as the following:
 
-Example: http://example.gc.ca/api/v1/magazines
+* "304 Not Modified" when the resource has not changed since the last reload or will not change
+* "404 Not found" when a requested entity does not exist
 
-    {
-        "metadata": {
-            "resultset": {
-                "count": 123,
-                "offset": 0,
-                "limit": 10
-            }
-        },
-        "results": [
-            {
-                "id": "1234",
-                "type": "magazine",
-                "title": "Public Water Systems",
-                "tags": [
-                    {"id": "125", "name": "Environment"},
-                    {"id": "834", "name": "Water Quality"}
-                ],
-                "created": "1231621302"
-            },
-            {
-                "id": 2351,
-                "type": "magazine",
-                "title": "Public Schools",
-                "tags": [
-                    {"id": "125", "name": "Elementary"},
-                    {"id": "834", "name": "Charter Schools"}
-                ],
-                "created": "126251302"
-            }
-            {
-                "id": 2351,
-                "type": "magazine",
-                "title": "Public Schools",
-                "tags": [
-                    {"id": "125", "name": "Pre-school"},
-                ],
-                "created": "126251302"
-            }
-        ]
+### 2.3 URI argument filtering
+
+Although not mandatory arguments are likely in dynamic and large datasets and follow standard `query=` logic.
+
+Where required for compatibility or to satisfy client requirements query arguments can be used to override header variables such as `Accept:` or `Accept-Language:`.
+
+URL arguments are defined by IETF RFC2396 Section 3 defined, through the document, as "query" (http://www.ietf.org/rfc/rfc2396.txt)
+
+### 2.4 URI path filtering
+
+URI based filtering, or Clean URLs, can be used to specify arguments to the API in the resource path.  Generally an aesthetic feature Clean URIs aid in caching and general adoption of an API.
+
+Caching is best served when arguments, or URIs in general, are consistently represented.  When encoding arguments in the URI be consistent in the ordering and value representation preferably in data logical order.
+
+Formats in Clean URL are defined as extensions to the virtual file as one would on a traditional file in a filesystem.  To define an XML or JSON file would be defined as /path/file.xml and /path/file.json.
+
+An API defined with traditional URL arguments would be converted from:
+
+`http://example.gc.ca/api/resource?argument_one=vale_one&argument_two=value_two&data_layout=listformat=json`
+
+To:
+
+`http://example.gc.ca/api/resource/value_one/value_two/list.list`
+
+Clean URLs can be achieved by various means such as scripting language or http server redirections.
+
+### 2.5 Versioning
+
+Versioning, from a RESTful approach, is an anti-pattern but often necessary by development practices.  The only requirement in versioning, if implemented, is the inclusion of the version in the output metadata to any relevant versioning format.
+
+```JSON
+{
+    "metadata": {
+        "version": "3.1.23a"
     }
+}
+```
 
-### GET /magazines/[id]
+If an API is to be versioned interoperability and consistency is greatly aided by the following:
 
-Example: http://example.gc.ca/api/v1/magazines/[id]
+* Limit endpoint changes unless necessary
+* Create endpoint for needs by the need over numerical where appropriate (e.g.: hardware dependance, client needs)
+* Versions should be integers not decimal numbers to avoid galloping endpoints and prefixed with ‘v’ for intuitive identification
+    * Good: `v1, v2, v3`
+    * Bad: `v-1.1, v1.2, 1.3`
+* If numerical major version numbers are required if a change can produce changes in logic
+* If numerical maintain at least one version back
 
-    {
-        "id": "1234",
-        "type": "magazine",
-        "title": "Public Water Systems",
-        "tags": [
-            {"id": "125", "name": "Environment"},
-            {"id": "834", "name": "Water Quality"}
-        ],
-        "created": "1231621302"
-    }
+## 3. Best Practices
 
-### POST /magazines/[id]/articles
+Elements in this section describe preferred implementation to be consistent with existing implementation or better methods of implementation.
 
-Example: Create – POST  http://example.gc.ca/api/v1/magazines/[id]/articles
+### 3.1 URI Structure
 
-    {
-        "title": "Raising Revenue",
-        "author_first_name": "Jane",
-        "author_last_name": "Smith",
-        "author_email": "jane.smith@example.gc.ca",
-        "year": "2012"
-        "month": "August"
-        "day": "18"
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ante ut augue scelerisque ornare. Aliquam tempus rhoncus quam vel luctus. Sed scelerisque fermentum fringilla. Suspendisse tincidunt nisl a metus feugiat vitae vestibulum enim vulputate. Quisque vehicula dictum elit, vitae cursus libero auctor sed. Vestibulum fermentum elementum nunc. Proin aliquam erat in turpis vehicula sit amet tristique lorem blandit. Nam augue est, bibendum et ultrices non, interdum in est. Quisque gravida orci lobortis... "
+#### 3.1.1 /api/
 
-    }
+For consistency with norms APIs should be identified separately and consistently.  There are two prevailing methods of distinguishing an api from standard content.
+
+The first is to contain API endpoints in a set directory at the root of the resource identifier (RI).  This lowers the chances the API endpoint moves due to later needs for the same root RI.  Using the plural "apis" is consistent with RI based.
+
+* http://example.gc.ca/apis/dogs
+* http://example.gc.ca/apis/cats
+
+The second method is to define a distinct domain name for the API and appending APIs after root.  To be consistent with RI structure the use of 'apis' would be advised.
+
+* http://apis.example.gc.ca/dogs
+* http://apis.example.gc.ca/cats
+
+#### 3.1.2 /developer/
+
+For consistency API documentation should be segregated into a common location.  Common practice is to maintain a developer's resource, although no fixed standard exist `/developer/` is a consistent term.
+
+Use one of the following as per the institution's inherent web delivery infrastructure.
+
+* `/developer/`
+* `/developpeur/`
+* `/développeur/`
+* `/developer-developpeur/`
+* `/developer-développeur/`
+* `/developpeur-developer/`
+* `/développeur-developer/`
+
+#### 3.1.3 /data/
+
+The `/data/` directories are reserved for institutional use.  API development should no use `/data/` as the inherent home for APIs where `/data/apis/` would be acceptable.
+
+This is true for the following directories
+
+* `/data/`
+* `/donnees/`
+* `/données/`
+* `/data-donnees/`
+* `/data-données/`
+* `/donnees-data/`
+* `/données-data/`
+
+### 3.2 Human readable intuitive keys
+
+The easier your data is to read and understand the more likely the data is to be used and correctly.
+
+* Good: `{ "name" : "Bogart", "breed": "Bulldog" }`
+* Bad: `{ "nm": "Bogart", "brd": "Bulldog" }`
+
+### 3.3 Responses
+
+Response design is heavily dictated by data structure but there are better practices and more pitfalls to avoid.
+
+#### 3.3.1 Values in Keys
+
+* Good: `{ "name" : "Bogart", "breed": "Bulldog" }`
+* Bad: `{ "Bogart": "bulldog" }`
+
+#### 3.3.2 Internal Specific Keys
+
+Avoid "node" and "taxonomy term" in your data.
+
+* Good: `{ "dog_id": 12345 }`
+* Bad: `{ "did": 12345 }`
+
+#### 3.3.3 Metadata is dataset properties
+
+Metadata should only contain direct properties of the response set, not properties of the members of the response set
+
+* Good: `"metadata": { "count": 3, "nextDog": 1237 }`
+* Bad: `"metadata": { "count": 3, "dogs": "1234,1235,1236", "breeds": "bulldog,mixed,poodle" }`
+
+#### 3.4 Caching
+
+Considering the clients and easy of use for APIs current HTTP delivery models may not be sufficient.  Local caching servers (e.g.: Squid, Varnish) or hosted Content delivery network (CND) can protect a network from bandwidth depending on request patterns.
+
+How the API is structured, how expiry times are calculated and contract minimum delivery are all vital to proper caching.
+
+#### 3.5 Client registration
+
+To ease future tracking for metrics or to identify issues requiring/requesting an api key may be of use.  The request for a key should not request private information (name, email, phone number, etc...)
+
+## Examples
+
+`TODO: Insert examples when the the document is sorted to this point`
