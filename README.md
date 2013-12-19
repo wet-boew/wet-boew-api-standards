@@ -137,7 +137,7 @@ Two fields are required in the metadata variable.
 {
     "metadata":
     {
-        "dateCreated": "2014-01-01T00:00:00+00:00",
+        "request":{ "dateCreated": "2014-01-01T00:00:00+00:00" },
         "licenses":
         {
             "http://example.gc.ca/license-eng.php",
@@ -152,15 +152,19 @@ Where possible describe the dataset validity, additional licenses and publishers
 ```JSON
 {
     "metadata":{
+        "request":{ "dateCreated":"2014-01-01T00:00:00+00:00" },
+
         "name":"Earthquakes >4 for 1992",
         "description":"Earthquakes magnitude 4 or greater, 1992 calendar year",
         "keywords":"earthquake data",
-        "dateModified":"1867-07-01T00:00:01+00:00",
         "publisher": "Government of Canada",
-        "dateCreated":"2014-01-01T00:00:00+00:00"
+        "dateCreated":"1867-07-01T00:00:01+00:00",
+        "dateModified":"1982-03-29T00:00:01+00:00"
     }
 }
 ````
+
+In the previous example we show how dateCreated for the request does not collide with the dateCreated describing the data.
 
 Elements used in this description:
 
@@ -307,12 +311,10 @@ Information relevant to record limits, offsets and cursors should also be includ
 ```JSON
 {
     "metadata": {
-        "resultSet": {
+        "request": {
             "count": 25,
             "limit": 25,
-            "page": 3,
-            "offset": 75,
-            "cursor": "sam100890032"
+            "page": 3
         }
     }
 }
@@ -321,12 +323,10 @@ Information relevant to record limits, offsets and cursors should also be includ
 ```JSON
 {
     "metadata": {
-        "resultSet": {
-            "count": 100,
-            "limit": 100,
-            "page": 2,
-            "offset": 200,
-            "cursor": "Smith, John"
+        "request": {
+            "count": 25,
+            "limit": 25,
+            "offset": 75
         }
     }
 }
@@ -335,7 +335,7 @@ Information relevant to record limits, offsets and cursors should also be includ
 ```JSON
 {
     "metadata": {
-        "resultSet": {
+        "request": {
             "count": 18,
             "limit": 25,
             "cursor": "20130101.010101"
@@ -348,24 +348,18 @@ Information relevant to record limits, offsets and cursors should also be includ
 
 Although errors can be represented by HTTP status code alone structured error handling improves the ability to resolve issues for both consumer and maintainer.
 
-Research into common practice provides the following error structure:
-* Error responses are to be an HTTP status code
-* The same code is to be included
-* A message for the developer
-* A message for the end-user (when appropriate)
-* An internal error code (corresponding to an internal code if available)
-* A link where developers can find more information (if available)
-
-In JSON format
+Common practice is to provide useful error messaging such as included in the example below:
 
 ```JSON
 {
-    "status" : "400",
-    "developerMessage" : "Verbose, plain language description of the problem. Provide developers
-    suggestions about how to solve their problems here",
-    "userMessage" : "This is a message that can be passed along to end-users, if needed.",
-    "errorCode" : "444444",
-    "more info" : "http://example.gc.ca/developer/path/to/help/for/444444",
+    "metadata":{
+        "request":{
+            "status" : 400,
+            "errorMessage" : "Verbose, plain language description of the problem. Provide developers suggestions about how to solve their problems here",
+            "errorCode" : "444444",
+            "moreInfo" : "http://example.gc.ca/developer/path/to/help/for/444444",
+        }
+    }
 }
 ```
 
