@@ -1,4 +1,4 @@
-GC Web API Standards
+[DRAFT] GC Web API Standard
 ====================
 
 <span color='red'>
