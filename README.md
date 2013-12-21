@@ -90,7 +90,9 @@ Interoperability depends greatly on common implementation at the very least a mi
 #### 1.1 HTTP Header
 Headers variables are part of the request and response cycle in the Hypertext Transfer Protocol (HTTP).  Although not explicitly prescribed by RESTful design header negotiation is a widely used method in defining state in format and/or language and as such need to be supported.  Supporting headers for format and language bridges, in part, a divide in the theory of proper implementation.
 
-The minimum header variables to be supported are media type through `Accept:` and language through `Accept-Language:`.  Supplemental header variables in request (e.g.: `Accept-Charset:`, `Accept-Encoding:`) or response (e.g.: `Content-Language:`, `Content-Length:`) can aid in delivery and efficiency where appropriate but are not required.
+The minimum header variables to be supported are media type through `Accept:` and language through `Accept-Language:`.  On response `Content-type:` must return the appropriate media type.
+
+Supplemental header variables in request (e.g.: `Accept-Charset:`, `Accept-Encoding:`) or response (e.g.: `Content-Language:`, `Content-Length:`) can aid in delivery and efficiency where appropriate but are not required.
 
 Supplemental methods of specifying language or output formats such as [URI argument filtering](#23-uri-argument-filtering) or [URI path filtering](#24-uri-path-filtering) may override header variables when required.
 
