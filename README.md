@@ -206,7 +206,7 @@ Bilingual
 French Only
 ```JSON
 {
-    "metadata": { "en": "http://example.gc.ca/apis/dogs" },
+    "metadata": { "en": "http://example.gc.ca/apis/dogs/1234" },
     "size": {
          "fr": "Gros"
     },
@@ -219,7 +219,7 @@ French Only
 English Only
 ```JSON
 {
-    "metadata": { "fr": "http://exemple.gc.ca/apis/chiens" },
+    "metadata": { "fr": "http://exemple.gc.ca/apis/chiens/1234" },
     "size": {
          "en": "Large"
     },
