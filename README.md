@@ -37,7 +37,7 @@ Presently a draft from the TBS Web Interoperability Working Group with the inten
         * [2.5 Versioning](#25-versioning)
     * [3. Best Practices](#3-best-practices)
         * [3.1 URI Structure](#31-uri-structure)
-            * [3.1.1 /api/](#311-api)
+            * [3.1.1 /apis/](#311-api)
             * [3.1.2 /developer/](#312-developer)
             * [3.1.3 /data/](#313-data)
         * [3.2 Human readable intuitive keys](#32-human-readable-intuitive-keys)
@@ -238,10 +238,10 @@ The calculated language (e.g.: `Accept-Language:` or query parameters) should be
 ```
 Accept: text/html
 Accept-Language: en
-URL: http://exemple.gc.ca/api/chiens
+URL: http://exemple.gc.ca/apis/chiens
 ```
 
-The scenario above could return English content on the French `http://exemple.gc.ca/api/chiens` page.
+The scenario above could return English content on the French `http://exemple.gc.ca/apis/chiens` page.
 
 ### 1.4 Documentation
 
@@ -282,7 +282,7 @@ Offsets are to be defined as the singular `offset=` followed by an integer.
 
 Example use:
 
-* http://example.gc.ca/api/dataset?limit=25&offset=75
+* http://example.gc.ca/apis/dogs?limit=25&offset=75
     * For row is base 1 rows 76 through 100 should be returned
 
 #### 2.1.3 Pages
@@ -291,7 +291,7 @@ Much like offsets defined above `page=` is an offset incremented by the `limit=`
 
 Example use:
 
-* http://example.gc.ca/api/dataset?limit=25&page=3
+* http://example.gc.ca/apis/dogs?limit=25&page=3
     * For row is base 1 rows 76 through 100 should be returned
 
 #### 2.1.4 Cursor
@@ -303,7 +303,7 @@ Use `cursor=` to reliably iterate over results without risk of skipping or recei
 The string value use with `cursor=` is returned in the metadata of each response when any rows/objects are returned.  Typically it is a single value copied from the last row/object, and could be a date, name, internal id or any other sortable type.
 
 Example use:
-* http://example.gc.ca/api/dataset?limit=25&cursor=20130101.010101
+* http://example.gc.ca/apis/dogs?limit=25&cursor=20130101.010101
     * For 25 rows following the row containing the sort order value "20130101.010101"
 
 #### 2.1.5 Dataset segmenting metadata
@@ -394,11 +394,11 @@ Formats in Clean URL are defined as extensions to the virtual file as one would 
 
 An API defined with traditional URL arguments would be converted from:
 
-`http://example.gc.ca/api/resource?argument_one=vale_one&argument_two=value_two&data_layout=listformat=json`
+`http://example.gc.ca/apis/collection?argument_one=vale_one&argument_two=value_two&data_layout=list&format=json`
 
 To:
 
-`http://example.gc.ca/api/resource/value_one/value_two/list.list`
+`http://example.gc.ca/apis/collection/value_one/value_two/list.json`
 
 Clean URLs can be achieved by various means such as scripting language or http server redirections.
 
@@ -430,7 +430,7 @@ Elements in this section describe preferred implementation to be consistent with
 
 ### 3.1 URI Structure
 
-#### 3.1.1 /api/
+#### 3.1.1 /apis/
 
 For consistency with norms APIs should be identified separately and consistently.  There are two prevailing methods of distinguishing an api from standard content.
 
