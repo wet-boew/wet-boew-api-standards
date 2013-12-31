@@ -208,7 +208,7 @@ Bilingual
 French Only
 ```JSON
 {
-    "metadata": { "en": "http://example.gc.ca/apis/dogs/1234" },
+    "metadata": { "en": "http://example.gc.ca/api/dogs/1234" },
     "size": {
          "fr": "Gros"
     },
@@ -221,7 +221,7 @@ French Only
 English Only
 ```JSON
 {
-    "metadata": { "fr": "http://exemple.gc.ca/apis/chiens/1234" },
+    "metadata": { "fr": "http://exemple.gc.ca/api/chiens/1234" },
     "size": {
          "en": "Large"
     },
@@ -434,15 +434,15 @@ Elements in this section describe preferred implementation to be consistent with
 
 For consistency with norms APIs should be identified separately and consistently.  There are two prevailing methods of distinguishing an api from standard content.
 
-The first is to contain API endpoints in a set directory at the root of the resource identifier (RI).  This lowers the chances the API endpoint moves due to later needs for the same root RI.  Using the plural "apis" is consistent with RI based.
+The first is to contain API endpoints in a set directory at the root of the resource identifier (RI).  This lowers the chances the API endpoint moves due to later needs for the same root RI.
 
-* http://example.gc.ca/apis/dogs
-* http://example.gc.ca/apis/cats
+* http://example.gc.ca/api/dogs
+* http://example.gc.ca/api/cats
 
-The second method is to define a distinct domain name for the API and appending APIs after root.  To be consistent with RI structure the use of 'apis' would be advised.
+The second method is to define a distinct domain name for the API and appending APIs after root.
 
-* http://apis.example.gc.ca/dogs
-* http://apis.example.gc.ca/cats
+* http://api.example.gc.ca/dogs
+* http://api.example.gc.ca/cats
 
 #### 3.1.2 /developer/
 
@@ -460,7 +460,7 @@ Use one of the following as per the institution's inherent web delivery infrastr
 
 #### 3.1.3 /data/
 
-The `/data/` directories are reserved for institutional use.  API development should no use `/data/` as the inherent home for APIs where `/data/apis/` would be acceptable.
+The `/data/` directories are reserved for institutional use.  API development should no use `/data/` as the inherent home for APIs where `/data/api/` would be acceptable.
 
 This is true for the following directories
 
