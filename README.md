@@ -37,7 +37,7 @@ Presently a draft from the TBS Web Interoperability Working Group with the inten
         * [2.5 Versioning](#25-versioning)
     * [3. Best Practices](#3-best-practices)
         * [3.1 URI Structure](#31-uri-structure)
-            * [3.1.1 /apis/](#311-api)
+            * [3.1.1 /api/](#311-api)
             * [3.1.2 /developer/](#312-developer)
             * [3.1.3 /data/](#313-data)
         * [3.2 Human readable intuitive keys](#32-human-readable-intuitive-keys)
@@ -140,11 +140,11 @@ Two fields are required in the metadata variable.
     "metadata":
     {
         "request":{ "dateCreated": "2014-01-01T00:00:00+00:00" },
-        "licenses":
-        {
+        "licenses": 
+        [
             "http://example.gc.ca/license-eng.php",
             "http://data.gc.ca/eng/open-government-licence-canada"
-        }
+        ]
     }
 }
 ```
@@ -164,7 +164,7 @@ Where possible describe the dataset validity, additional licenses and publishers
         "dateModified":"1982-03-29T00:00:01+00:00"
     }
 }
-````
+```
 
 In the previous example we show how dateCreated for the request does not collide with the dateCreated describing the data.
 
@@ -208,7 +208,7 @@ Bilingual
 French Only
 ```JSON
 {
-    "metadata": { "en": "http://example.gc.ca/apis/dogs/1234" },
+    "metadata": { "en": "http://example.gc.ca/api/dogs/1234" },
     "size": {
          "fr": "Gros"
     },
@@ -221,7 +221,7 @@ French Only
 English Only
 ```JSON
 {
-    "metadata": { "fr": "http://exemple.gc.ca/apis/chiens/1234" },
+    "metadata": { "fr": "http://exemple.gc.ca/api/chiens/1234" },
     "size": {
          "en": "Large"
     },
@@ -238,10 +238,10 @@ The calculated language (e.g.: `Accept-Language:` or query parameters) should be
 ```
 Accept: text/html
 Accept-Language: en
-URL: http://exemple.gc.ca/apis/chiens
+URL: http://exemple.gc.ca/api/chiens
 ```
 
-The scenario above could return English content on the French `http://exemple.gc.ca/apis/chiens` page.
+The scenario above could return English content on the French `http://exemple.gc.ca/api/chiens` page.
 
 ### 1.4 Documentation
 
@@ -282,7 +282,7 @@ Offsets are to be defined as the singular `offset=` followed by an integer.
 
 Example use:
 
-* http://example.gc.ca/apis/dogs?limit=25&offset=75
+* http://example.gc.ca/api/dogs?limit=25&offset=75
     * For row is base 1 rows 76 through 100 should be returned
 
 #### 2.1.3 Pages
@@ -291,7 +291,7 @@ Much like offsets defined above `page=` is an offset incremented by the `limit=`
 
 Example use:
 
-* http://example.gc.ca/apis/dogs?limit=25&page=3
+* http://example.gc.ca/api/dogs?limit=25&page=3
     * For row is base 1 rows 76 through 100 should be returned
 
 #### 2.1.4 Cursor
@@ -303,7 +303,7 @@ Use `cursor=` to reliably iterate over results without risk of skipping or recei
 The string value use with `cursor=` is returned in the metadata of each response when any rows/objects are returned.  Typically it is a single value copied from the last row/object, and could be a date, name, internal id or any other sortable type.
 
 Example use:
-* http://example.gc.ca/apis/dogs?limit=25&cursor=20130101.010101
+* http://example.gc.ca/api/dogs?limit=25&cursor=20130101.010101
     * For 25 rows following the row containing the sort order value "20130101.010101"
 
 #### 2.1.5 Dataset segmenting metadata
@@ -394,11 +394,11 @@ Formats in Clean URL are defined as extensions to the virtual file as one would 
 
 An API defined with traditional URL arguments would be converted from:
 
-`http://example.gc.ca/apis/collection?argument_one=vale_one&argument_two=value_two&data_layout=list&format=json`
+`http://example.gc.ca/api/collection?argument_one=vale_one&argument_two=value_two&data_layout=list&format=json`
 
 To:
 
-`http://example.gc.ca/apis/collection/value_one/value_two/list.json`
+`http://example.gc.ca/api/collection/value_one/value_two/list.json`
 
 Clean URLs can be achieved by various means such as scripting language or http server redirections.
 
@@ -430,19 +430,21 @@ Elements in this section describe preferred implementation to be consistent with
 
 ### 3.1 URI Structure
 
-#### 3.1.1 /apis/
+#### 3.1.1 /api/
 
 For consistency with norms APIs should be identified separately and consistently.  There are two prevailing methods of distinguishing an api from standard content.
 
-The first is to contain API endpoints in a set directory at the root of the resource identifier (RI).  This lowers the chances the API endpoint moves due to later needs for the same root RI.  Using the plural "apis" is consistent with RI based.
+The first is to contain API endpoints in a set directory at the root of the resource identifier (RI).  This lowers the chances the API endpoint moves due to later needs for the same root RI.
 
-* http://example.gc.ca/apis/dogs
-* http://example.gc.ca/apis/cats
+* http://example.gc.ca/api/dogs
+* http://example.gc.ca/api/cats
 
-The second method is to define a distinct domain name for the API and appending APIs after root.  To be consistent with RI structure the use of 'apis' would be advised.
+The second method is to define a DNS record for the API and defining API services after root.  To be consistent with RI structure the use of 'api' would be advised.
 
-* http://apis.example.gc.ca/dogs
-* http://apis.example.gc.ca/cats
+* http://api.example.gc.ca/dogs
+* http://api.example.gc.ca/cats
+
+To aid in API discovery, navigating to the root of the API container should prove to be a useful endpoint. This means that should a user access `http://api.example.gc.ca` or `http://example.gc.ca/api` directly, an HTTP status code of 200 should be returned along with a landing page (or requested media type if available). This landing page should serve as a starting point for information on what APIs are available and on how to get started. This could be as simple as a list of available APIs and links to their respective `/developer/` sections for more information. In addition, search engine crawlers could benefit from links that provide basic queries to data that would be useful if indexed in search engines.
 
 #### 3.1.2 /developer/
 
@@ -460,7 +462,7 @@ Use one of the following as per the institution's inherent web delivery infrastr
 
 #### 3.1.3 /data/
 
-The `/data/` directories are reserved for institutional use.  API development should no use `/data/` as the inherent home for APIs where `/data/apis/` would be acceptable.
+The `/data/` directories are reserved for institutional use.  API development should no use `/data/` as the inherent home for APIs where `/data/api/` would be acceptable.
 
 This is true for the following directories
 
