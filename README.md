@@ -2,7 +2,7 @@
 ====================
 
 <span color='red'>
-Working requirements for Government of Canada (GoC) Web Application Programming Interfaces (API)s.
+Working requirements for Government of Canada (GC) Web Application Programming Interfaces (API)s.
 
 Presently a draft from the TBS Web Interoperability Working Group with the intent to deliver a first working draft by the next Web Managers Council.  RFC to [WET - GC Web API Standards](https://github.com/wet-boew/wet-boew-api-standards).
 </span>
@@ -52,13 +52,13 @@ Presently a draft from the TBS Web Interoperability Working Group with the inten
 ## This document
 
 ### Goal
-The goal of this document is to ensure API delivery across the Government of Canada (GoC) is consistent and up to the highest standards by defining a base level of delivery and only describing expansion when further comment is required.
+The goal of this document is to ensure API delivery across the Government of Canada (GC) is consistent and up to the highest standards by defining a base level of delivery and only describing expansion when further comment is required.
 
-The intent is to maintain a living document that adapts to changes in the landscape of Web API delivery but at the same time being mindful of established and mandated standards presently adopted inside and outside the GoC.
+The intent is to maintain a living document that adapts to changes in the landscape of Web API delivery but at the same time being mindful of established and mandated standards presently adopted inside and outside the GC.
 
 It's expected that anything not described in this document is to be implemented from best practices with an eye to interoperability, maintainability and future direction.  Gaps, errors or new best practices should be brought to the Web Standards Office (WSO) Web Interoperability Working Group (WIWG).
 
-GoC APIs aim to balance a truly RESTful API interface with a positive developer experience (DX).
+GC APIs aim to balance a truly RESTful API interface with a positive developer experience (DX).
 
 ### Structure
 This document describes API requirements by priority:
@@ -80,12 +80,12 @@ Draft comments are to be bracketed with the following.
 `TODO:`, `NOTE:` and `ISSUE:`
 
 ## Web API Implementation
-Web APIs in the GoC are to be RESTful as described by Roy Thomas Fielding's dissertation "Architectural Styles and the Design of Network-based Software Architectures" (2000) adapted to mandated minimums for the GoC and design choices in support of Web Interoperability.
+Web APIs in the GC are to be RESTful as described by Roy Thomas Fielding's dissertation "Architectural Styles and the Design of Network-based Software Architectures" (2000) adapted to mandated minimums for the GC and design choices in support of Web Interoperability.
 
-The intent is not to limit development to the prescribed minimums but to ensure that GoC Web APIs behave consistently.  Any and all other requirements or options not described in this document may be implemented at the discretion of the API owner so long as the [minimum delivery](#minimum-delivery) and delivery standard of [optional features](#optional-features) are met.
+The intent is not to limit development to the prescribed minimums but to ensure that GC Web APIs behave consistently.  Any and all other requirements or options not described in this document may be implemented at the discretion of the API owner so long as the [minimum delivery](#minimum-delivery) and delivery standard of [optional features](#optional-features) are met.
 
 ### 1. Minimum delivery
-Interoperability depends greatly on common implementation at the very least a minimum platform.  This his section describe mandatory elements in input, output and maintenance that must be found in a GoC API and behave as described.
+Interoperability depends greatly on common implementation at the very least a minimum platform.  This his section describe mandatory elements in input, output and maintenance that must be found in a GC API and behave as described.
 
 #### 1.1 HTTP Header
 Headers variables are part of the request and response cycle in the Hypertext Transfer Protocol (HTTP).  Although not explicitly prescribed by RESTful design header negotiation is a widely used method in defining state in format and/or language and as such need to be supported.  Supporting headers for format and language bridges, in part, a divide in the theory of proper implementation.
