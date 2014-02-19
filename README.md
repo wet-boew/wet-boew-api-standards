@@ -88,7 +88,7 @@ The intent is not to limit development to the prescribed minimums but to ensure 
 Interoperability depends greatly on common implementation at the very least a minimum platform.  This his section describe mandatory elements in input, output and maintenance that must be found in a GC API and behave as described.
 
 #### 1.1 HTTP Header
-Headers variables are part of the request and response cycle in the Hypertext Transfer Protocol (HTTP).  Although not explicitly prescribed by RESTful design header negotiation is a widely used method in defining state in format and/or language and as such need to be supported.  Supporting headers for format and language bridges, in part, a divide in the theory of proper implementation.
+Headers variables are part of the request and response cycle in the Hypertext Transfer Protocol (HTTP).  Although not explicitly prescribed by RESTful design header negotiation is a widely used method in defining state in format and/or language and as such need to be supported.  Supporting headers for format and language partially bridges a divide in the theory of proper implementation.
 
 The minimum header variables to be supported are media type through `Accept:` and language through `Accept-Language:`.  On response `Content-Type:` and `Content-Language:` must be returned with the appropriate media type and language(s) respectively.
 
