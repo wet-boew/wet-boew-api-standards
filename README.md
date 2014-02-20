@@ -35,6 +35,8 @@ Presently a draft from the TBS Web Interoperability Working Group with the inten
         * [2.3 URI argument filtering](#23-uri-argument-filtering)
         * [2.4 URI path filtering](#24-uri-path-filtering)
         * [2.5 Versioning](#25-versioning)
+        * [2.6 HTTP Headers](#26-http-headers)
+            * [2.6.1 Cross-Origin Resource Sharing](#261-cors)
     * [3. Best Practices](#3-best-practices)
         * [3.1 URI Structure](#31-uri-structure)
             * [3.1.1 /api/](#311-api)
@@ -451,6 +453,23 @@ If an API is to be versioned interoperability and consistency is greatly aided b
     * Bad: `v-1.1, v1.2, 1.3`
 * If numerical major version numbers are required if a change can produce changes in logic
 * If numerical maintain at least one version back
+
+### 2.6 HTTP Headers
+
+The following are optional HTTP Headers that should be considered and implemented when appropriate.
+
+#### 2.6.1 Cross-Origin Resource Sharing
+
+Many mobile and web-based applications use client-side JavaScript. Inherently browser engines have built-in mechanism to prevent cross-site scripting (XSS). However, it may be appropriate for some APIs to allow client-side JavaScript to query data directly from the API. In this scenario, the API response must include an HTTP header allowing a remote user access to the data. Such a header is defined as follows:
+
+`Access-Control-Allow-Origin *`
+
+This header should be set as an HTTP response header for API responses, not site-wide.
+
+For more information on HTTP Cross-Origin Resource Sharing (CORS) visit the following resources:
+
+* [W3C - Cross-Origin Resource Sharing](http://www.w3.org/TR/cors/)
+* [MDN - HTTP Access Control](https://developer.mozilla.org/en/docs/HTTP/Access_control_CORS)
 
 ## 3. Best Practices
 
