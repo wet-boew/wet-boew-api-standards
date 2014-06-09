@@ -326,9 +326,9 @@ Example use:
 
 #### 2.1.4 Cursor
 
-`cursor=` is an offset with a value based on the sort order of results returned.
+`cursor=` is a value based on the database index used for results returned. This is also called "index-based pagination" because a service may use a database index to generate the results requested with fewer resources than with a page or offset.
 
-Use `cursor=` to reliably iterate over results without risk of skipping or receiving duplicate rows/objects due to insertions/deletions.
+Use `cursor=` to reliably iterate over results without risk of skipping or receiving duplicate rows/objects due to insertions/deletions. Also use `cursor=` instead of large values to `page=` or `offset=` to avoid potential service performance issues.
 
 The string value use with `cursor=` is returned in the metadata of each response when any rows/objects are returned.  Typically it is a single value copied from the last row/object, and could be a date, name, internal id or any other sortable type.
 
