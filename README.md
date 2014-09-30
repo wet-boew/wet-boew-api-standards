@@ -275,11 +275,11 @@ The scenario above could return English content on the French `http://exemple.gc
 
 ### 1.4 Documentation
 
-`TODO: Known gap, to be complete early Jan`
+`TODO: Known gap`
 
 ### 1.5 Registration
 
-`TODO: Known gap, to be complete early Jan`
+`TODO: Known gap`
 
 ## 2. Optional features
 
