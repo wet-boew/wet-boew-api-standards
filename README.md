@@ -430,7 +430,7 @@ An API defined with traditional URL arguments would be converted from:
 
 To:
 
-`http://example.gc.ca/api/collection/value_one/value_two/list.json`
+`http://example.gc.ca/api/collection/value_two/list?format=json`
 
 Clean URLs can be achieved by various means such as scripting language or http server redirections.
 
