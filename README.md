@@ -287,7 +287,9 @@ Beyond the base delivery of an API features can help clients better access and u
 
 ### 2.1 Dataset segmenting
 
-Limits are nearly always mandatory, only limited size datasets are safe to to implement without a default and maximum limit.  These elements are strongly recommended where possible and relevant.  A second, but no less important, consideration for the client creates requirements such as mobile device limitations and dataset size.
+Limits are nearly always mandatory, only APIs to small datasets are safe to to implement without a default and hard maximum limits.  No less important is the consideration for the client requirements on limited platforms such as mobile devices.
+
+These elements are strongly recommended where possible and relevant.
 
 #### 2.1.1 Limits
 
