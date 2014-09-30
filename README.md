@@ -110,9 +110,9 @@ Content-Language: en,fr
 
 {
     ...
-    "size": {
-         "en": "Large",
-         "fr": "Gros"
+    "color": {
+         "en": "Brown",
+         "fr": "Black"
     },
     "type": {
          "en": "Dog",
